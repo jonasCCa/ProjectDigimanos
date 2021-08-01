@@ -17,16 +17,6 @@ public class PlayerHandler : MonoBehaviour {
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerObj"),
                                                  GameSetup.gs.spawnPoints[spawnPicker].position,
                                                  GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
-            switch(spawnPicker) {
-                case 0:
-                    myAvatar.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-                    break;
-                case 1:
-                    myAvatar.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-                    break;
-                default:
-                    break;
-            }
 
             spawnPicker++;
         }

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,13 @@ public class PlayerController : MonoBehaviour
     public float groundCheckRadius = 0.5f;
     public float bottomOffset = 0.7f;
 
+    //PoT -> Player on Top
+    [Header("PoT-Checking")]
+    public bool hasPoT;
+    public LayerMask playerLayer;
+    public Vector3 potCheckBoxSize = new Vector3(){x = 0.5f, y = 0.3f, z = 0.5f};
+    public float topOffset = 1;
+
     [Header("Info")]
     [SerializeField] private float vertSpeed;
     [SerializeField] private float inputX;
@@ -35,7 +43,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float inputJ;
     [SerializeField] private float timeOnGround;
     [SerializeField] private float timeSinceGrounded;
-    [SerializeField] private Vector3 movement;
+    //Debugging purposes
+    //[SerializeField] private Vector3 movement;
 
     void Start() {
         PV = GetComponent<PhotonView>();
@@ -57,14 +66,16 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate() {
         if(PV.IsMine) {
-            //Check ground
+            //Checks ground
             onGround = GroundCheck(-transform.up);
             //Starts downwards calculation
             DoGravity();
 
             //Initializes movement calculation
-            //Vector3 movement = new Vector3(inputX, 0, inputY);
-            movement = new Vector3(inputX, 0, inputY);
+            Vector3 movement = new Vector3(inputX, 0, inputY);
+            //Debugging purposes
+            //movement = new Vector3(inputX, 0, inputY);
+            
             //Stops diagonals from being dumb
             //movement.Normalize();
             movement = Vector3.ClampMagnitude(movement, 1f);
@@ -72,8 +83,11 @@ public class PlayerController : MonoBehaviour
             movement.x *= xSpeed;
             movement.z *= ySpeed;
 
+            //Checks PoT
+            hasPoT = PoTCheck(transform.up);
+
             //Starts jumping calculation
-            if(inputJ > 0) {
+            if(inputJ > 0 && !hasPoT) {
                 DoJumping();
             }
 
@@ -83,12 +97,12 @@ public class PlayerController : MonoBehaviour
             //Applies movement by time
             controller.Move(movement * Time.deltaTime);
 
-            // WIP: COMPLETE CHANGE WILL BE DONE LATER
+            // WIP: COMPLETE CHANGE HAS TO BE DONE LATER
             MoveCamera();
         }
     }
 
-    // WIP: COMPLETE CHANGE WILL BE DONE LATER
+    // WIP: COMPLETE CHANGE HAS TO BE DONE LATER
     private void MoveCamera() {
         playerCamera.transform.position = new Vector3(transform.position.x,
                                                       transform.position.y + 4.1f,
@@ -143,6 +157,8 @@ public class PlayerController : MonoBehaviour
         Vector3 pos = transform.position + (direction * bottomOffset);
         //Check objects with groundLayer within a certain raidus from that point
         Collider[] hitColliders = Physics.OverlapSphere(pos, groundCheckRadius, groundLayer);
+
+
         //If anything was found, then it's grounded
         if (hitColliders.Length > 0)
             return true;
@@ -150,12 +166,48 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    //Draws fancy stuff on scene viewer
+
+    //Debugging purposes
+    [SerializeField] List<Collider> hitColliders;
+    [SerializeField] Collider selfCollider;
+
+    //Returns true is there's a player on top
+    private bool PoTCheck(Vector3 direction) {
+        //Initializes point to check PoT 
+        Vector3 pos = transform.position + (direction * topOffset);
+        //Check objects with playerLayer within a certain raidus from that point
+        //List<Collider> hitColliders = Physics.OverlapSphere(pos, potCheckBoxSize, playerLayer).ToList();
+        //List<Collider> hitColliders = Physics.OverlapBox(pos, potCheckBoxSize, Quaternion.identity, playerLayer);
+
+        //Debugging purposes
+        hitColliders = Physics.OverlapBox(pos, potCheckBoxSize, Quaternion.identity, playerLayer).ToList();
+        //hitColliders = Physics.OverlapSphere(pos, potCheckBoxSize, playerLayer).ToList();
+        selfCollider = GetComponent<Collider>();
+
+        //Delete Self from hitColliders
+        //Collider selfCollider = GetComponent<Collider>();
+        //if(hitColliders.Contains(selfCollider)) {
+            hitColliders.Remove(selfCollider);
+        //}
+
+        //If anything was found, then it has PoT
+        if (hitColliders.Count > 0)
+            return true;
+
+        return false;
+    }
+
+    //Draws fancy stuff on editor scene viewer
     void OnDrawGizmosSelected()
     {
-        //ground check sphere
+        //Ground check sphere
         Gizmos.color = Color.yellow;
         Vector3 pos = transform.position + (-transform.up * bottomOffset);
         Gizmos.DrawWireSphere(pos, groundCheckRadius);
+
+        //PoT check sphere
+        Gizmos.color = new Color(1, 0.647f, 0, 1); //orange
+        pos = transform.position + (transform.up * topOffset);
+        Gizmos.DrawWireCube(pos, potCheckBoxSize*2);
     }
 }

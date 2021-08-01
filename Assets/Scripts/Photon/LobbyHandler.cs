@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class LobbyHandler : MonoBehaviourPunCallbacks
-{
-
+public class LobbyHandler : MonoBehaviourPunCallbacks {
     public static LobbyHandler lobby;
     public static int roomName;
 
     public GameObject startButton;
     public GameObject cancelButton;
+    public GameObject offlineButton;
 
     private void Awake() {
         lobby = this;
@@ -23,10 +23,24 @@ public class LobbyHandler : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
+    void Update() {
+        if(PlayerInfo.PI.selectedCharacter > 0) {
+            startButton.GetComponent<Button>().interactable = true;
+        } else {
+            startButton.GetComponent<Button>().interactable = false;
+        }
+    }
+
     public override void OnConnectedToMaster() {
         Debug.Log("Connected to master server");
         PhotonNetwork.AutomaticallySyncScene = true;
         startButton.SetActive(true);
+        offlineButton.SetActive(false);
+    }
+
+    public override void OnDisconnected(DisconnectCause cause) {
+        Debug.Log(cause);
+        offlineButton.SetActive(true);
     }
 
     public void onStartButtonClick() {
@@ -50,7 +64,7 @@ public class LobbyHandler : MonoBehaviourPunCallbacks
     }
 
     void CreateRoom() {
-        RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 2 };
+        RoomOptions roomOps = new RoomOptions() { IsVisible = true, IsOpen = true, MaxPlayers = 4 };
         PhotonNetwork.CreateRoom("Room#"+roomName, roomOps);
         roomName++;
     }
