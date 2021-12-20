@@ -162,6 +162,7 @@ public class PlayerController : MonoBehaviour
 
 
     //Debugging purposes
+    [Header("Collision Debugging")]
     [SerializeField] List<Collider> hitColliders;
     [SerializeField] Collider selfCollider;
 
