@@ -2,7 +2,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public CharacterController controller;
     public GameObject playerCamera;
-    private PhotonView PV;
 
     [Header("Movement Control")]
     public float xSpeed = 10;
@@ -47,8 +45,6 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] private Vector3 movement;
 
     void Start() {
-        PV = GetComponent<PhotonView>();
-
         controller = GetComponent<CharacterController>();
         playerCamera = GameObject.Find("MainCamera");
 
@@ -65,41 +61,39 @@ public class PlayerController : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if(PV.IsMine) {
-            //Checks ground
-            onGround = GroundCheck(-transform.up);
-            //Starts downwards calculation
-            DoGravity();
+        //Checks ground
+        onGround = GroundCheck(-transform.up);
+        //Starts downwards calculation
+        DoGravity();
 
-            //Initializes movement calculation
-            Vector3 movement = new Vector3(inputX, 0, inputY);
-            //Debugging purposes
-            //movement = new Vector3(inputX, 0, inputY);
-            
-            //Stops diagonals from being dumb
-            //movement.Normalize();
-            movement = Vector3.ClampMagnitude(movement, 1f);
-            //Applies speed
-            movement.x *= xSpeed;
-            movement.z *= ySpeed;
+        //Initializes movement calculation
+        Vector3 movement = new Vector3(inputX, 0, inputY);
+        //Debugging purposes
+        //movement = new Vector3(inputX, 0, inputY);
+        
+        //Stops diagonals from being dumb
+        //movement.Normalize();
+        movement = Vector3.ClampMagnitude(movement, 1f);
+        //Applies speed
+        movement.x *= xSpeed;
+        movement.z *= ySpeed;
 
-            //Checks PoT
-            hasPoT = PoTCheck(transform.up);
+        //Checks PoT
+        hasPoT = PoTCheck(transform.up);
 
-            //Starts jumping calculation
-            if(inputJ > 0 && !hasPoT) {
-                DoJumping();
-            }
-
-            //Applies Vertical speed (gravity + jumping)
-            movement.y += vertSpeed;
-
-            //Applies movement by time
-            controller.Move(movement * Time.deltaTime);
-
-            // WIP: COMPLETE CHANGE HAS TO BE DONE LATER
-            MoveCamera();
+        //Starts jumping calculation
+        if(inputJ > 0 && !hasPoT) {
+            DoJumping();
         }
+
+        //Applies Vertical speed (gravity + jumping)
+        movement.y += vertSpeed;
+
+        //Applies movement by time
+        controller.Move(movement * Time.deltaTime);
+
+        // WIP: COMPLETE CHANGE HAS TO BE DONE LATER
+        MoveCamera();
     }
 
     // WIP: COMPLETE CHANGE HAS TO BE DONE LATER
