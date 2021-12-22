@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public CharacterController controller;
     public GameObject playerCamera;
+    public PlayerInput playerInput;
 
     [Header("Movement Control")]
     public float xSpeed = 10;
@@ -38,13 +40,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float vertSpeed;
     [SerializeField] private float inputX;
     [SerializeField] private float inputY;
-    [SerializeField] private float inputJ;
+    [SerializeField] private bool inputJ;
     [SerializeField] private float timeOnGround;
     [SerializeField] private float timeSinceGrounded;
     //Debugging purposes
     //[SerializeField] private Vector3 movement;
 
     void Start() {
+        playerInput = GetComponent<PlayerInput>();
+        //playerInput.SwitchCurrentActionMap("Gameplay");
+
+
         controller = GetComponent<CharacterController>();
         playerCamera = GameObject.Find("MainCamera");
 
@@ -55,9 +61,11 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update() {
-        inputX = Input.GetAxisRaw("Horizontal");
-        inputY = Input.GetAxisRaw("Vertical");
-        inputJ = Input.GetAxis("Jump");     
+        // Old input system
+        //inputX = Input.GetAxisRaw("Horizontal");
+        //inputY = Input.GetAxisRaw("Vertical");
+        //inputJ = Input.GetAxis("Jump");
+        
     }
 
     void FixedUpdate() {
@@ -82,7 +90,7 @@ public class PlayerController : MonoBehaviour
         hasPoT = PoTCheck(transform.up);
 
         //Starts jumping calculation
-        if(inputJ > 0 && !hasPoT) {
+        if(inputJ && !hasPoT) {
             DoJumping();
         }
 
@@ -191,6 +199,32 @@ public class PlayerController : MonoBehaviour
 
         return false;
     }
+
+
+    ////////////////////////
+    //  New Input System  //
+    //          -         //
+    // Event Callbacks on //
+    //   <Player Input>   //
+    ////////////////////////
+    public void OnMove(InputAction.CallbackContext value) {
+        inputX = value.ReadValue<Vector2>().x;
+        inputY = value.ReadValue<Vector2>().y;
+    }
+
+    public void OnJump(InputAction.CallbackContext value) {
+        // CallbackContext are Finite-State Machines:
+        // started -> performed -> canceled
+
+        //if(value.performed || value.canceled) {
+        if(value.performed) {
+            inputJ = value.ReadValueAsButton();
+            //Debug.Log("Entrou OnJump(): " + inputJ);
+        }
+    }
+
+
+
 
     //Draws fancy stuff on editor scene viewer
     void OnDrawGizmosSelected()
