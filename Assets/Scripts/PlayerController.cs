@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller;
     public GameObject playerCamera;
     public PlayerInput playerInput;
+    Collider selfCollider;
 
     [Header("Movement Control")]
     public float xSpeed = 10;
@@ -21,7 +22,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5;
     public float gravity = 90;
     public float coyoteTime = 0.15f;
-    public float minGroundTime = 0.05f;
+    public float minGroundTime = 0.04f;
     
     [Header("Ground-Checking")]
     public bool onGround;
@@ -43,19 +44,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool inputJ;
     [SerializeField] private float timeOnGround;
     [SerializeField] private float timeSinceGrounded;
+
+    [Header("Tests")]
+    public List<Material> playerMaterials;
     //Debugging purposes
     //[SerializeField] private Vector3 movement;
 
     void Start() {
+        selfCollider = GetComponent<Collider>();
         playerInput = GetComponent<PlayerInput>();
         //playerInput.SwitchCurrentActionMap("Gameplay");
 
+        if(playerInput.playerIndex == 0) {  // Placeholder for new camera system
+            playerCamera = GameObject.Find("MainCamera");
+
+            playerCamera.transform.rotation = Quaternion.identity;
+            playerCamera.transform.Rotate(20,0,0);
+        }
+
+        GetComponent<MeshRenderer>().material = playerMaterials[playerInput.playerIndex];
 
         controller = GetComponent<CharacterController>();
-        playerCamera = GameObject.Find("MainCamera");
-
-        playerCamera.transform.rotation = Quaternion.identity;
-        playerCamera.transform.Rotate(20,0,0);
 
         isJumping = true;
     }
@@ -71,6 +80,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate() {
         //Checks ground
         onGround = GroundCheck(-transform.up);
+
         //Starts downwards calculation
         DoGravity();
 
@@ -101,7 +111,8 @@ public class PlayerController : MonoBehaviour
         controller.Move(movement * Time.deltaTime);
 
         // WIP: COMPLETE CHANGE HAS TO BE DONE LATER
-        MoveCamera();
+        //if(playerCamera != null)
+        //    MoveCamera();
     }
 
     // WIP: COMPLETE CHANGE HAS TO BE DONE LATER
@@ -126,6 +137,9 @@ public class PlayerController : MonoBehaviour
             //Makes sure you don't accelerate donwards while on ground
             if(vertSpeed < 0)
                 vertSpeed = 0f;
+        } else {
+            if(CeilingCheck(transform.up))
+                vertSpeed = 0;
         }
         //Coyote time is not forever, y'know?
         if (timeOnGround > 0)
@@ -158,11 +172,12 @@ public class PlayerController : MonoBehaviour
         //Initializes point to check ground 
         Vector3 pos = transform.position + (direction * bottomOffset);
         //Check objects with groundLayer within a certain raidus from that point
-        Collider[] hitColliders = Physics.OverlapSphere(pos, groundCheckRadius, groundLayer);
+        hitColliders = Physics.OverlapSphere(pos, groundCheckRadius, groundLayer).ToList();
 
+        hitColliders.Remove(selfCollider);
 
         //If anything was found, then it's grounded
-        if (hitColliders.Length > 0)
+        if (hitColliders.Count > 0)
             return true;
 
         return false;
@@ -170,11 +185,28 @@ public class PlayerController : MonoBehaviour
 
 
     //Debugging purposes
-    [Header("Collision Debugging")]
-    [SerializeField] List<Collider> hitColliders;
-    [SerializeField] Collider selfCollider;
+    //[Header("Collision Debugging")]
+    List<Collider> hitColliders;
 
-    //Returns true is there's a player on top
+    //Returns true if hits ceiling
+    private bool CeilingCheck(Vector3 direction)
+    {
+        //Initializes point to check ceiling 
+        Vector3 pos = transform.position + (direction * bottomOffset);
+        //Check object swithin a certain raidus from that point
+        hitColliders = Physics.OverlapSphere(pos, groundCheckRadius).ToList();
+
+
+        hitColliders.Remove(selfCollider);
+
+        //If anything (besides self) was found, then player's head goes bonk
+        if (hitColliders.Count > 1)
+            return true;
+
+        return false;
+    }
+
+    //Returns true if there's a player on top
     private bool PoTCheck(Vector3 direction) {
         //Initializes point to check PoT 
         Vector3 pos = transform.position + (direction * topOffset);
@@ -185,7 +217,6 @@ public class PlayerController : MonoBehaviour
         //Debugging purposes
         hitColliders = Physics.OverlapBox(pos, potCheckBoxSize, Quaternion.identity, playerLayer).ToList();
         //hitColliders = Physics.OverlapSphere(pos, potCheckBoxSize, playerLayer).ToList();
-        selfCollider = GetComponent<Collider>();
 
         //Delete Self from hitColliders
         //Collider selfCollider = GetComponent<Collider>();
@@ -234,6 +265,11 @@ public class PlayerController : MonoBehaviour
         Vector3 pos = transform.position + (-transform.up * bottomOffset);
         Gizmos.DrawWireSphere(pos, groundCheckRadius);
 
+        //Ceiling check sphere
+        Gizmos.color = Color.yellow;
+        pos = transform.position + (transform.up * bottomOffset);
+        Gizmos.DrawWireSphere(pos, groundCheckRadius);
+        
         //PoT check sphere
         Gizmos.color = new Color(1, 0.647f, 0, 1); //orange
         pos = transform.position + (transform.up * topOffset);
