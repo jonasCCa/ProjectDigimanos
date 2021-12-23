@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour
         hitColliders.Remove(selfCollider);
 
         //If anything (besides self) was found, then player's head goes bonk
-        if (hitColliders.Count > 1)
+        if (hitColliders.Count > 0)
             return true;
 
         return false;

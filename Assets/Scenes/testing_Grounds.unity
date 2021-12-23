@@ -320,11 +320,16 @@ MonoBehaviour:
   playerInputManager: {fileID: 0}
   gameCamera: {fileID: 0}
   playerList: []
-  cameraSmoothTime: 0.2
+  longestPlayerDistance: 0
+  distanceRatio: 1
+  maxCameraDistance: 15
+  cameraSmoothTime: 0.05
   cameraMaxSpeed: 50
-  cameraOffset: {x: 0, y: 5.75, z: -6.3}
+  cameraOffset: {x: 0, y: 3.15, z: -3.99}
   cameraTarget: {fileID: 2119345330}
-  velocity: {x: 0, y: 0, z: 0}
+  targetVelocity: {x: 0, y: 0, z: 0}
+  cameraVelocity: {x: 0, y: 0, z: 0}
+  cameraOffsettedPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &288495947
 GameObject:
   m_ObjectHideFlags: 0

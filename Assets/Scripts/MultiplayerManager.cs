@@ -9,21 +9,28 @@ public class MultiplayerManager : MonoBehaviour
     [SerializeField] private PlayerInputManager playerInputManager;
     public GameObject gameCamera;
     [SerializeField] private List<GameObject> playerList;
+    [SerializeField] private float longestPlayerDistance;
 
     [Header("Camera Configs")]
+    public float distanceRatio = 1f;
+    public float maxCameraDistance = 10f;
     public float cameraSmoothTime = 0.5f;
     public float cameraMaxSpeed = 50f;
     public Vector3 cameraOffset;
     public GameObject cameraTarget;
     
     [Header("Read Only")]
-    [SerializeField] private Vector3 velocity = Vector3.zero;
+    [SerializeField] private Vector3 targetVelocity = Vector3.zero;
+    [SerializeField] private Vector3 cameraVelocity = Vector3.zero;
+    [SerializeField] private Vector3 cameraOffsettedPosition = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
     {
         playerInputManager = GetComponent<PlayerInputManager>();
         gameCamera = GameObject.Find("MainCamera");
+
+        
     }
 
     // Update is called once per frame
@@ -33,17 +40,33 @@ public class MultiplayerManager : MonoBehaviour
     }
 
     void FixedUpdate() {
-        cameraTarget.transform.position = Vector3.SmoothDamp(cameraTarget.transform.position, calculateTarget() + cameraOffset,
-                                                            ref velocity, cameraSmoothTime, cameraMaxSpeed, Time.deltaTime);
+        // Calculates camera target position
+        cameraOffsettedPosition = calculateTargetPosition();
+        // Calculates the longest distance between players
+        longestPlayerDistance = calculatePlayerDistance();
 
-        //gameCamera.transform.position = cameraTarget.transform.position + cameraOffset;
-
+        // Smooths camera target position
+        cameraTarget.transform.position = Vector3.SmoothDamp(cameraTarget.transform.position, calculateTargetPosition(),
+                                                            ref targetVelocity, cameraSmoothTime, cameraMaxSpeed, Time.deltaTime);
+        // Points camera to target
         gameCamera.transform.LookAt(cameraTarget.transform);
+        // Smooths camera position
+        gameCamera.transform.position = Vector3.SmoothDamp(gameCamera.transform.position, calculateCameraPosition() + cameraOffset,
+                                                            ref cameraVelocity, cameraSmoothTime, cameraMaxSpeed, Time.deltaTime);
+
+    }
+
+    Vector3 calculateCameraPosition() {
+        Vector3 auxResult = new Vector3();
+
+        auxResult = Vector3.ClampMagnitude(gameCamera.transform.forward*(calculatePlayerDistance() * distanceRatio), maxCameraDistance);
+
+        return cameraOffsettedPosition - auxResult;
     }
 
     // Calculates centroid between all players
-    Vector3 calculateTarget() {
-        Vector3 newTarget = new Vector3(0,0,0);
+    Vector3 calculateTargetPosition() {
+        Vector3 newTarget = new Vector3();
 
         foreach(GameObject player in playerList) {
             newTarget += player.transform.position;
@@ -53,6 +76,25 @@ public class MultiplayerManager : MonoBehaviour
 
         //Debug.Log(newTarget.ToString());
         return newTarget;
+    }
+
+    // Calculates the longest distance between players
+    //   -> Complexity O(n² - n), gotta test performance
+    float calculatePlayerDistance() {
+        float longestDistance = 0;
+
+        for(int i=0; i<playerList.Count; i++) {
+            for(int j=0; j<playerList.Count; j++) {
+                if(j!=i) {
+                    float aux = Vector3.Distance(playerList[i].transform.position, playerList[j].transform.position);
+                    if(aux > longestDistance) {
+                        longestDistance = aux;
+                    }
+                }
+            }
+        }
+
+        return longestDistance;
     }
 
     // Adds Player to list when joined

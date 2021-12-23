@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 866135440306408913}
   - component: {fileID: 866135440306408912}
   - component: {fileID: 866135440306408916}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player_PlaceHolder
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -127,8 +127,8 @@ MonoBehaviour:
   onGround: 0
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
-  groundCheckRadius: 0.5
+    m_Bits: 1088
+  groundCheckRadius: 0.6
   bottomOffset: 0.7
   hasPoT: 0
   playerLayer:
@@ -147,8 +147,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 359572d2ff32c1b48b8baa1562d09989, type: 2}
   - {fileID: 2100000, guid: 748d8f95b8adff84aad2d40d5d1954a9, type: 2}
   - {fileID: 2100000, guid: 86576121b7d6b964499f90900641bbfb, type: 2}
-  hitColliders: []
-  selfCollider: {fileID: 0}
 --- !u!114 &866135440306408916
 MonoBehaviour:
   m_ObjectHideFlags: 0
