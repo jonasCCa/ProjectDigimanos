@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 182162898}
   - component: {fileID: 182162897}
   - component: {fileID: 182162899}
+  - component: {fileID: 182162900}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -318,18 +319,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInputManager: {fileID: 0}
-  gameCamera: {fileID: 0}
   playerList: []
-  longestPlayerDistance: 0
-  distanceRatio: 1
-  maxCameraDistance: 15
+  cController: {fileID: 0}
+--- !u!114 &182162900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182162896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 844fc468dc35ae54da35588b915e22ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameCamera: {fileID: 1742228621}
+  cameraTarget: {fileID: 2119345330}
+  manager: {fileID: 182162899}
+  distanceRatio: 0.5
+  singlePlayerDistance: 5
+  maxCameraDistance: 10
   cameraSmoothTime: 0.05
   cameraMaxSpeed: 50
   cameraOffset: {x: 0, y: 3.15, z: -3.99}
-  cameraTarget: {fileID: 2119345330}
+  isSinglePlayer: 1
+  longestPlayerDistance: 0
   targetVelocity: {x: 0, y: 0, z: 0}
   cameraVelocity: {x: 0, y: 0, z: 0}
-  cameraOffsettedPosition: {x: 0, y: 0, z: 0}
+  cameraTargetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &288495947
 GameObject:
   m_ObjectHideFlags: 0
