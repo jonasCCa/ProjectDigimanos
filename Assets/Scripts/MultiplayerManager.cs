@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+// Manages multiple player intances
 public class MultiplayerManager : MonoBehaviour
 {
     [Header("Object References")]
@@ -13,10 +14,10 @@ public class MultiplayerManager : MonoBehaviour
 
     [Header("Camera Configs")]
     public float distanceRatio = 1f;
-    public float maxCameraDistance = 10f;
-    public float cameraSmoothTime = 0.5f;
+    public float maxCameraDistance = 15f;
+    public float cameraSmoothTime = 0.05f;
     public float cameraMaxSpeed = 50f;
-    public Vector3 cameraOffset;
+    public Vector3 cameraOffset = new Vector3(0,3.15f,-3.99f);
     public GameObject cameraTarget;
     
     [Header("Read Only")]

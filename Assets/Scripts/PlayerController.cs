@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void FixedUpdate() {
-        //Checks ground
+        //Checks ground + player
         onGround = GroundCheck(-transform.up);
 
         //Starts downwards calculation
@@ -138,7 +138,8 @@ public class PlayerController : MonoBehaviour
             if(vertSpeed < 0)
                 vertSpeed = 0f;
         } else {
-            if(CeilingCheck(transform.up))
+            // If player is going up and hits something
+            if(vertSpeed > 0 && CeilingCheck(transform.up))
                 vertSpeed = 0;
         }
         //Coyote time is not forever, y'know?
@@ -166,34 +167,46 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //Returns true if is on ground
+
+    //Debugging purposes
+    //[Header("Collision Debugging")]
+    List<Collider> hitColliders;
+
+    //Returns true if is on ground or in top of another player
     private bool GroundCheck(Vector3 direction)
     {
-        //Initializes point to check ground 
+        // Initializes point to check ground 
         Vector3 pos = transform.position + (direction * bottomOffset);
-        //Check objects with groundLayer within a certain raidus from that point
+        // Check objects with groundLayer within a certain raidus from that point
         hitColliders = Physics.OverlapSphere(pos, groundCheckRadius, groundLayer).ToList();
 
+        // Removes self from list
         hitColliders.Remove(selfCollider);
 
         //If anything was found, then it's grounded
         if (hitColliders.Count > 0)
             return true;
+        else {
+            // Same offset as PoT check
+            pos = transform.position + (direction * topOffset);
+            // Double checks downwards for player collision
+            hitColliders = Physics.OverlapBox(pos, potCheckBoxSize, Quaternion.identity, playerLayer).ToList();
+            // Removes self from list
+            hitColliders.Remove(selfCollider);
+
+            if (hitColliders.Count > 0)
+            return true;
+        }
 
         return false;
     }
-
-
-    //Debugging purposes
-    //[Header("Collision Debugging")]
-    List<Collider> hitColliders;
 
     //Returns true if hits ceiling
     private bool CeilingCheck(Vector3 direction)
     {
         //Initializes point to check ceiling 
         Vector3 pos = transform.position + (direction * bottomOffset);
-        //Check object swithin a certain raidus from that point
+        //Check objects within a certain raidus from that point
         hitColliders = Physics.OverlapSphere(pos, groundCheckRadius).ToList();
 
 
@@ -264,6 +277,11 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.yellow;
         Vector3 pos = transform.position + (-transform.up * bottomOffset);
         Gizmos.DrawWireSphere(pos, groundCheckRadius);
+
+        //Ground player doublecheck box
+        Gizmos.color = new Color(1, 0.647f, 0, 1); //orange
+        pos = transform.position + (-transform.up * topOffset);
+        Gizmos.DrawWireCube(pos, potCheckBoxSize*2);
 
         //Ceiling check sphere
         Gizmos.color = Color.yellow;
