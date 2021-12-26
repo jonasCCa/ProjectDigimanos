@@ -90,7 +90,7 @@ public class OffscreenIndicator : MonoBehaviour
         }
 
 
-        Debug.Log(screenTargetPosition.ToString());
+        //Debug.Log(screenTargetPosition.ToString());
     }
 
 
