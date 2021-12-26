@@ -11,6 +11,10 @@ public class MultiplayerManager : MonoBehaviour
     [SerializeField] private List<GameObject> playerList;
     [SerializeField] private CameraController cController;
 
+    [Header("Tests")]
+    public List<Material> playerMaterials;
+    public List<GameObject> playerIndicators;
+
 
     // Start is called before the first frame update
     void Start()
@@ -58,9 +62,27 @@ public class MultiplayerManager : MonoBehaviour
         return longestDistance;
     }
 
+    // Calculates the height difference between the lowest and the heighest players
+    public float calculatePlayerHeightDifference() {
+        float lowestHeight = float.MaxValue;
+        float highestHeight = float.MinValue;
+
+        foreach(GameObject player in playerList) {
+            if(player.transform.position.y < lowestHeight)
+                lowestHeight = player.transform.position.y;
+            else if(player.transform.position.y > highestHeight)
+                highestHeight = player.transform.position.y;
+        }
+
+        return highestHeight - lowestHeight;
+    }
+
     // Adds Player to list when joined, set SinglePlayer flag on CameraController
     public void OnPlayerJoined(PlayerInput pI) {
         playerList.Add(pI.gameObject);
+
+        pI.gameObject.GetComponent<MeshRenderer>().material = playerMaterials[pI.playerIndex];
+        pI.gameObject.GetComponent<PlayerController>().indicator = playerIndicators[pI.playerIndex];
 
         Debug.Log("Player Joined; ID: " + pI.playerIndex);
 

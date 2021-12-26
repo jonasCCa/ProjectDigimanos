@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float timeSinceGrounded;
 
     [Header("Tests")]
-    public List<Material> playerMaterials;
+    public GameObject indicator;
     //Debugging purposes
     //[SerializeField] private Vector3 movement;
 
@@ -54,15 +54,6 @@ public class PlayerController : MonoBehaviour
         selfCollider = GetComponent<Collider>();
         playerInput = GetComponent<PlayerInput>();
         //playerInput.SwitchCurrentActionMap("Gameplay");
-
-        if(playerInput.playerIndex == 0) {  // Placeholder for new camera system
-            playerCamera = GameObject.Find("MainCamera");
-
-            playerCamera.transform.rotation = Quaternion.identity;
-            playerCamera.transform.Rotate(20,0,0);
-        }
-
-        GetComponent<MeshRenderer>().material = playerMaterials[playerInput.playerIndex];
 
         controller = GetComponent<CharacterController>();
 

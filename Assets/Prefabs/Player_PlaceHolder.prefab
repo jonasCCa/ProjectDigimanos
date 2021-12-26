@@ -130,8 +130,6 @@ MonoBehaviour:
     m_Bits: 1088
   groundCheckRadius: 0.5
   bottomOffset: 0.7
-  bottomTipOffset: 0.35
-  downwardsRayLength: 0.23
   hasPoT: 0
   playerLayer:
     serializedVersion: 2
@@ -149,6 +147,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 359572d2ff32c1b48b8baa1562d09989, type: 2}
   - {fileID: 2100000, guid: 748d8f95b8adff84aad2d40d5d1954a9, type: 2}
   - {fileID: 2100000, guid: 86576121b7d6b964499f90900641bbfb, type: 2}
+  indicatorList: []
+  indicator: {fileID: 0}
 --- !u!114 &866135440306408916
 MonoBehaviour:
   m_ObjectHideFlags: 0
