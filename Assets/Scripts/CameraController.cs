@@ -14,7 +14,6 @@ public class CameraController : MonoBehaviour
     public float distanceRatio = .5f;
     public float maxCameraDistance = 10f;
     public float heightRatio = .5f;
-    public float maxHeightAngle = 10f;
     public float cameraSmoothTime = 0.2f;
     public float cameraMaxSpeed = 50f;
     public Vector3 cameraOffset = new Vector3(0,3.15f,-3.99f);
@@ -22,7 +21,7 @@ public class CameraController : MonoBehaviour
     [Header("Read Only")]
     [SerializeField] private bool isSinglePlayer = true;
     [SerializeField] private float longestPlayerDistance;
-    [SerializeField] private float heightAngle;
+    //[SerializeField] private float heightDiff;
     [SerializeField] private Vector3 targetVelocity = Vector3.zero;
     [SerializeField] private Vector3 cameraVelocity = Vector3.zero;
     [SerializeField] private Vector3 cameraTargetPosition = Vector3.zero;
@@ -43,14 +42,13 @@ public class CameraController : MonoBehaviour
         // Calculates camera target position
         cameraTargetPosition = manager.calculateTargetPosition();
 
-        heightAngle = Mathf.Clamp(manager.calculatePlayerHeightDifference() * heightRatio, 0, maxHeightAngle);
 
         // Smooths camera target position
         cameraTarget.transform.position = Vector3.SmoothDamp(cameraTarget.transform.position, cameraTargetPosition,
                                                             ref targetVelocity, cameraSmoothTime, cameraMaxSpeed, Time.deltaTime);
         
         // Smooths camera position
-        gameCamera.transform.position = Vector3.SmoothDamp(gameCamera.transform.position, calculateCameraPosition() + cameraOffset + new Vector3(0,heightAngle,0),
+        gameCamera.transform.position = Vector3.SmoothDamp(gameCamera.transform.position, calculateCameraPosition() + cameraOffset,
                                                             ref cameraVelocity, cameraSmoothTime, cameraMaxSpeed, Time.deltaTime);
         // Points camera to target
         gameCamera.transform.LookAt(cameraTarget.transform);
