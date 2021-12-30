@@ -118,7 +118,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
   controller: {fileID: 0}
-  playerCamera: {fileID: 0}
   playerInput: {fileID: 0}
   xSpeed: 10
   ySpeed: 10
@@ -140,12 +139,14 @@ MonoBehaviour:
     m_Bits: 1024
   potCheckBoxSize: {x: 0.5, y: 0.3, z: 0.5}
   topOffset: 1
-  weapon: {fileID: 7512109165574892540}
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 2048
+  weapon: {fileID: 0}
   animator: {fileID: 1327821042}
   isAttacking: 1
+  isKnockbacked: 0
+  knockbackValue: 0
+  knockbackDirection: {x: 0, y: 0, z: 0}
+  lasEulerX: 0
+  movement: {x: 0, y: 0, z: 0}
   vertSpeed: 0
   inputX: 0
   inputY: 0
@@ -165,12 +166,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfda372ba5f7f2b4da9a6b47f315a9e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayer: 1
+  playerController: {fileID: 0}
+  isEnemy: 0
   isAlive: 1
-  maxHP: 50
-  curHP: 50
-  atk: 7
+  maxHP: 100
+  curHP: 100
+  atk: 5
   curXP: 0
   xpValue: 10
+  revive: 0
 --- !u!114 &866135440306408916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,3 +483,5 @@ MonoBehaviour:
   parentPlayer: {fileID: 0}
   playerStats: {fileID: 0}
   animator: {fileID: 1327821042}
+  curDmgMultiplier: 0
+  knockbackAmount: 5

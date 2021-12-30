@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-
     public GameObject parentPlayer;
     public StatsController playerStats;
     public Animator animator;
-    //public int weaponDmg;
+
+    public Dictionary<string, float> attackType =
+        new Dictionary<string, float>(){{"Light_Attack",1},{"Heavy_Attack",1.5f}};
+    
+    public float curDmgMultiplier;
+    public int knockbackAmount;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +28,13 @@ public class WeaponController : MonoBehaviour
         //isAttacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Light_Attack");
     }
 
+    public void SetAttackType(string type) {
+        if(attackType.ContainsKey(type))
+            curDmgMultiplier = attackType[type];
+        else
+            curDmgMultiplier = 1;
+    }
+
     void OnTriggerEnter(Collider other) {
         //if(isAttacking)
         if(other.gameObject != parentPlayer)
@@ -31,7 +42,8 @@ public class WeaponController : MonoBehaviour
         
         StatsController targetStats = other.gameObject.GetComponent<StatsController>();
         if(targetStats != null) {
-            playerStats.curXP += targetStats.takeDamage(playerStats.atk);
+            playerStats.curXP += targetStats.TakeDamage((int)(playerStats.atk * curDmgMultiplier),
+                                                        knockbackAmount, parentPlayer.transform.position);
         }
     }
 }

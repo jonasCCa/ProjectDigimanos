@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     [Header("References")]
     public StatsController stats;
     public CharacterController controller;
-    public GameObject playerCamera;
     public PlayerInput playerInput;
     Collider selfCollider;
 
@@ -40,12 +39,20 @@ public class PlayerController : MonoBehaviour
     public float topOffset = 1;
 
     [Header("Attacking")]
-    public GameObject weapon;
-    public LayerMask enemyLayer;
+    public WeaponController weapon;
     public Animator animator;
     [SerializeField] private bool isAttacking;
 
+    [Header("Knockback")]
+    [SerializeField] private bool isKnockbacked;
+    //[SerializeField] private float lastKnockbacked;
+    [SerializeField] private float knockbackValue;
+    [SerializeField] private Vector3 knockbackDirection;
+    // Place-holder for knockback animation
+    [SerializeField] private float lasEulerX;
+
     [Header("Info")]
+    [SerializeField] private Vector3 movement;
     [SerializeField] private float vertSpeed;
     [SerializeField] private float inputX;
     [SerializeField] private float inputY;
@@ -59,6 +66,9 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] private Vector3 movement;
 
     void Start() {
+        // Place-holder for equipment system
+        weapon = GetComponentInChildren<WeaponController>();
+
         stats = GetComponent<StatsController>();
         
         selfCollider = GetComponent<Collider>();
@@ -81,48 +91,61 @@ public class PlayerController : MonoBehaviour
                 isAttacking = true;
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
                 isAttacking = false;
-            
         }
     }
 
     void FixedUpdate() {
-        //Checks ground + player
-        onGround = GroundCheck(-transform.up);
+        if(stats.isAlive) {
+            //Checks ground + player
+            onGround = GroundCheck(-transform.up);
+            //Starts downwards calculation
+            DoGravity();
 
-        //Starts downwards calculation
-        DoGravity();
+            // If player is not recieving knockback, continue as normal
+            if(!isKnockbacked) {
+                //Initializes movement calculation
+                movement = new Vector3(inputX, 0, inputY);
+                
+                //Stops diagonals from being dumb
+                movement = Vector3.ClampMagnitude(movement, 1f);
+                //Applies speed
+                movement.x *= xSpeed;
+                movement.z *= ySpeed;
 
-        //Initializes movement calculation
-        Vector3 movement = new Vector3(inputX, 0, inputY);
-        //Debugging purposes
-        //movement = new Vector3(inputX, 0, inputY);
-        
-        //Stops diagonals from being dumb
-        //movement.Normalize();
-        movement = Vector3.ClampMagnitude(movement, 1f);
-        //Applies speed
-        movement.x *= xSpeed;
-        movement.z *= ySpeed;
+                //Checks PoT
+                hasPoT = PoTCheck(transform.up);
 
-        //Checks PoT
-        hasPoT = PoTCheck(transform.up);
+                //Starts jumping calculation
+                if(inputJ && !hasPoT) {
+                    DoJumping();
+                }
 
-        //Starts jumping calculation
-        if(inputJ && !hasPoT) {
-            DoJumping();
+                //Rotate to where it's moving
+                if(movement.magnitude != 0) {
+                    float step = turningSpeed * Time.deltaTime;
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation,  Quaternion.LookRotation(movement), step);
+                }
+
+                //Applies Vertical speed (gravity + jumping)
+                movement.y += vertSpeed;
+            } else { // If player is recieving knockback
+                // Apply knockback
+                movement = knockbackDirection * 5*knockbackValue;
+                // Apply gravity
+                movement.y += vertSpeed;
+
+                // Decreases knockback by time
+                knockbackValue -= 20*Time.deltaTime;
+                // If knockback is less than 0, stop knockbacking
+                if(knockbackValue <= 0) {
+                    transform.eulerAngles = new Vector3(lasEulerX,transform.eulerAngles.y,transform.eulerAngles.z);
+                    isKnockbacked = false;
+                }
+            }       
+
+            //Applies movement by time
+            controller.Move(movement * Time.deltaTime);
         }
-
-        //Rotate to where it's moving
-        if(movement.magnitude != 0) {
-            float step = turningSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation,  Quaternion.LookRotation(movement), step);
-        }
-
-        //Applies Vertical speed (gravity + jumping)
-        movement.y += vertSpeed;        
-
-        //Applies movement by time
-        controller.Move(movement * Time.deltaTime);
     }
 
     private void DoGravity() {
@@ -168,6 +191,30 @@ public class PlayerController : MonoBehaviour
                 vertSpeed += Mathf.Sqrt(jumpForce * 2 * gravity);
             }
         }
+    }
+
+    // Recieves knockback from Stats Controller
+    public void Knockback(int kbValue, Vector3 attacker) {
+        isKnockbacked = true;
+
+        // Face attacker
+        transform.LookAt(attacker);
+
+        // Place-holder for knockback animation
+        lasEulerX = transform.eulerAngles.x;
+        transform.eulerAngles = new Vector3(-20,transform.eulerAngles.y,transform.eulerAngles.z);
+
+        // To avoid flying
+        isJumping = true;
+        
+        knockbackValue = kbValue;
+        
+        // Calculate direction that the knockback was recieved
+        knockbackDirection = transform.position - attacker;
+        // Negate Y-axis knockback
+        knockbackDirection.y = 0;
+        // Normalize direction vector
+        knockbackDirection /= knockbackDirection.magnitude;
     }
 
 
@@ -271,16 +318,30 @@ public class PlayerController : MonoBehaviour
     }
 
     public void OnLightAttack(InputAction.CallbackContext value) {
-        if(value.performed && value.ReadValueAsButton()==true && !isAttacking) {
-            if(animator.isActiveAndEnabled)
-                animator.Play("Light_Attack");
+        // Can only attack when isn't recieving knockback and isn't dead
+        if(!isKnockbacked && stats != null && stats.isAlive) {
+            // Can only attack when is not attacking already (+button checks)
+            if(value.performed && value.ReadValueAsButton()==true && !isAttacking) {
+                // Send attack information to weapon
+                weapon.SetAttackType("Light_Attack");
+                // Play attacking animation
+                if(animator.isActiveAndEnabled)
+                    animator.Play("Light_Attack");
+            }
         }
     }
 
     public void OnHeavyAttack(InputAction.CallbackContext value) {
-        if(value.performed && value.ReadValueAsButton()==true && !isAttacking) {
-            if(animator.isActiveAndEnabled)
-                animator.Play("Heavy_Attack");
+        // Can only attack when isn't recieving knockback
+        if(!isKnockbacked && stats != null && stats.isAlive) {
+            // Can only attack when is not attacking already (+button checks)
+            if(value.performed && value.ReadValueAsButton()==true && !isAttacking) {
+                // Send attack information to weapon
+                weapon.SetAttackType("Heavy_Attack");
+                // Play attacking animation
+                if(animator.isActiveAndEnabled)
+                    animator.Play("Heavy_Attack");
+            }
         }
     }
 
