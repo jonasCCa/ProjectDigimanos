@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     
     [Header("References")]
+    public StatsController stats;
     public CharacterController controller;
     public GameObject playerCamera;
     public PlayerInput playerInput;
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Control")]
     public float xSpeed = 10;
     public float ySpeed = 10;
+    public float turningSpeed = 1000;
     
     [Header("Jump Control")]
     public bool isJumping;
@@ -37,6 +39,12 @@ public class PlayerController : MonoBehaviour
     public Vector3 potCheckBoxSize = new Vector3(){x = 0.5f, y = 0.3f, z = 0.5f};
     public float topOffset = 1;
 
+    [Header("Attacking")]
+    public GameObject weapon;
+    public LayerMask enemyLayer;
+    public Animator animator;
+    [SerializeField] private bool isAttacking;
+
     [Header("Info")]
     [SerializeField] private float vertSpeed;
     [SerializeField] private float inputX;
@@ -51,6 +59,8 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] private Vector3 movement;
 
     void Start() {
+        stats = GetComponent<StatsController>();
+        
         selfCollider = GetComponent<Collider>();
         playerInput = GetComponent<PlayerInput>();
         //playerInput.SwitchCurrentActionMap("Gameplay");
@@ -66,6 +76,13 @@ public class PlayerController : MonoBehaviour
         //inputY = Input.GetAxisRaw("Vertical");
         //inputJ = Input.GetAxis("Jump");
         
+        if(!animator.IsInTransition(0)) {
+            if(animator.GetCurrentAnimatorStateInfo(0).IsName("Light_Attack") || animator.GetCurrentAnimatorStateInfo(0).IsName("Heavy_Attack"))
+                isAttacking = true;
+            else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+                isAttacking = false;
+            
+        }
     }
 
     void FixedUpdate() {
@@ -95,22 +112,17 @@ public class PlayerController : MonoBehaviour
             DoJumping();
         }
 
+        //Rotate to where it's moving
+        if(movement.magnitude != 0) {
+            float step = turningSpeed * Time.deltaTime;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,  Quaternion.LookRotation(movement), step);
+        }
+
         //Applies Vertical speed (gravity + jumping)
-        movement.y += vertSpeed;
+        movement.y += vertSpeed;        
 
         //Applies movement by time
         controller.Move(movement * Time.deltaTime);
-
-        // WIP: COMPLETE CHANGE HAS TO BE DONE LATER
-        //if(playerCamera != null)
-        //    MoveCamera();
-    }
-
-    // WIP: COMPLETE CHANGE HAS TO BE DONE LATER
-    private void MoveCamera() {
-        playerCamera.transform.position = new Vector3(transform.position.x,
-                                                      transform.position.y + 4.1f,
-                                                      transform.position.z - 8.52f);
     }
 
     private void DoGravity() {
@@ -255,6 +267,20 @@ public class PlayerController : MonoBehaviour
         if(value.performed) {
             inputJ = value.ReadValueAsButton();
             //Debug.Log("Entrou OnJump(): " + inputJ);
+        }
+    }
+
+    public void OnLightAttack(InputAction.CallbackContext value) {
+        if(value.performed && value.ReadValueAsButton()==true && !isAttacking) {
+            if(animator.isActiveAndEnabled)
+                animator.Play("Light_Attack");
+        }
+    }
+
+    public void OnHeavyAttack(InputAction.CallbackContext value) {
+        if(value.performed && value.ReadValueAsButton()==true && !isAttacking) {
+            if(animator.isActiveAndEnabled)
+                animator.Play("Heavy_Attack");
         }
     }
 
