@@ -25,7 +25,7 @@ public class WeaponController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //isAttacking = animator.GetCurrentAnimatorStateInfo(0).IsName("Light_Attack");
+        
     }
 
     public void SetAttackType(string type) {
@@ -36,14 +36,14 @@ public class WeaponController : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other) {
-        //if(isAttacking)
-        if(other.gameObject != parentPlayer)
-            Debug.Log("Collided");
-        
-        StatsController targetStats = other.gameObject.GetComponent<StatsController>();
-        if(targetStats != null) {
-            playerStats.curXP += targetStats.TakeDamage((int)(playerStats.atk * curDmgMultiplier),
-                                                        knockbackAmount, parentPlayer.transform.position);
+        // Can't attack self
+        if(other.gameObject != parentPlayer) {
+            
+            StatsController targetStats = other.gameObject.GetComponent<StatsController>();
+            if(targetStats != null) {
+                playerStats.curXP += targetStats.TakeDamage((int)(playerStats.atk * curDmgMultiplier),
+                                                            knockbackAmount, parentPlayer.transform.position);
+            }
         }
     }
 }
