@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     [Header("Movement Control")]
     public float xSpeed = 10;
     public float ySpeed = 10;
+    public float breakXSpeed;
+    public float breakYSpeed;
+    public float breakTime = 0.2f;
     public float turningSpeed = 1000;
     
     [Header("Jump Control")]
@@ -96,37 +99,51 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate() {
         if(stats.isAlive) {
-            //Checks ground + player
+            // Checks ground + player
             onGround = GroundCheck(-transform.up);
-            //Starts downwards calculation
+            // Starts downwards calculation
             DoGravity();
 
             // If player is not recieving knockback, continue as normal
             if(!isKnockbacked) {
-                //Initializes movement calculation
-                movement = new Vector3(inputX, 0, inputY);
                 
-                //Stops diagonals from being dumb
+                // Can't move while attacking
+                if(!isAttacking) {
+                    // Initializes movement calculation
+                    movement = new Vector3(inputX, 0, inputY);
+                    breakXSpeed = inputX;
+                    breakYSpeed = inputY;
+                } else { // Slows down movement when attacking
+                    //movement = new Vector3(0,0,0);
+                    breakXSpeed = Mathf.Lerp(breakXSpeed,0,breakTime);
+                    breakYSpeed = Mathf.Lerp(breakYSpeed,0,breakTime);
+                    movement = new Vector3(breakXSpeed,0,breakYSpeed);
+                }
+
+                // Stops diagonals from being dumb
                 movement = Vector3.ClampMagnitude(movement, 1f);
-                //Applies speed
+                // Applies speed
                 movement.x *= xSpeed;
                 movement.z *= ySpeed;
 
-                //Checks PoT
+                // Checks PoT
                 hasPoT = PoTCheck(transform.up);
 
-                //Starts jumping calculation
-                if(inputJ && !hasPoT) {
-                    DoJumping();
+                // Can't jump while attacking
+                if(!isAttacking) {
+                    // Starts jumping calculation
+                    if(inputJ && !hasPoT) {
+                        DoJumping();
+                    }
                 }
 
-                //Rotate to where it's moving
+                // Rotate to where it's moving
                 if(movement.magnitude != 0) {
                     float step = turningSpeed * Time.deltaTime;
                     transform.rotation = Quaternion.RotateTowards(transform.rotation,  Quaternion.LookRotation(movement), step);
                 }
 
-                //Applies Vertical speed (gravity + jumping)
+                // Applies Vertical speed (gravity + jumping)
                 movement.y += vertSpeed;
             } else { // If player is recieving knockback
                 // Apply knockback
@@ -143,24 +160,24 @@ public class PlayerController : MonoBehaviour
                 }
             }       
 
-            //Applies movement by time
+            // Applies movement by time
             controller.Move(movement * Time.deltaTime);
         }
     }
 
     private void DoGravity() {
-        //If on ground, coyote time is now valid and plz don't fall anymore
+        // If on ground, coyote time is now valid and plz don't fall anymore
         if(onGround) {
-            //Resets coyote time
+            // Resets coyote time
             timeOnGround = coyoteTime;
 
-            //Tracks if player's been a minimum time on ground before jumping again
+            // Tracks if player's been a minimum time on ground before jumping again
             if(timeSinceGrounded<minGroundTime)
                 timeSinceGrounded += Time.deltaTime;
             else
                 isJumping = false;
 
-            //Makes sure you don't accelerate donwards while on ground
+            // Makes sure you don't accelerate donwards while on ground
             if(vertSpeed < 0)
                 vertSpeed = 0f;
         } else {
@@ -168,11 +185,11 @@ public class PlayerController : MonoBehaviour
             if(vertSpeed > 0 && CeilingCheck(transform.up))
                 vertSpeed = 0;
         }
-        //Coyote time is not forever, y'know?
+        // Coyote time is not forever, y'know?
         if (timeOnGround > 0)
             timeOnGround -= Time.deltaTime;
         
-        //Gravity 😎
+        // Gravity 😎
         vertSpeed -= gravity * Time.deltaTime;
     }
 
@@ -180,14 +197,14 @@ public class PlayerController : MonoBehaviour
         if(!isJumping) {
             isJumping = true;
             timeSinceGrounded = 0;
-            //If coyote time is valid
+            // If coyote time is valid
             if (timeOnGround > 0) {
                 //Makes sure coyote time isn't valid anymore
                 timeOnGround = 0;
                 
-                //Stop falling (in order to do the coyote time magic)
+                // Stop falling (in order to do the coyote time magic)
                 vertSpeed = 0;
-                //Physics guy said so
+                // Physics guy said so
                 vertSpeed += Mathf.Sqrt(jumpForce * 2 * gravity);
             }
         }
@@ -222,7 +239,7 @@ public class PlayerController : MonoBehaviour
     //[Header("Collision Debugging")]
     List<Collider> hitColliders;
 
-    //Returns true if is on ground or in top of another player
+    // Returns true if is on ground or in top of another player
     private bool GroundCheck(Vector3 direction)
     {
         // Initializes point to check ground 
@@ -233,7 +250,7 @@ public class PlayerController : MonoBehaviour
         // Removes self from list
         hitColliders.Remove(selfCollider);
 
-        //If anything was found, then it's grounded
+        // If anything was found, then it's grounded
         if (hitColliders.Count > 0)
             return true;
         else {
@@ -251,27 +268,27 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    //Returns true if hits ceiling
+    // Returns true if hits ceiling
     private bool CeilingCheck(Vector3 direction)
     {
-        //Initializes point to check ceiling 
+        // Initializes point to check ceiling 
         Vector3 pos = transform.position + (direction * bottomOffset);
-        //Check objects within a certain raidus from that point
+        // Check objects within a certain raidus from that point
         hitColliders = Physics.OverlapSphere(pos, groundCheckRadius).ToList();
 
 
         hitColliders.Remove(selfCollider);
 
-        //If anything (besides self) was found, then player's head goes bonk
+        // If anything (besides self) was found, then player's head goes bonk
         if (hitColliders.Count > 0)
             return true;
 
         return false;
     }
 
-    //Returns true if there's a player on top
+    // Returns true if there's a player on top
     private bool PoTCheck(Vector3 direction) {
-        //Initializes point to check PoT 
+        // Initializes point to check PoT 
         Vector3 pos = transform.position + (direction * topOffset);
         //Check objects with playerLayer within a certain raidus from that point
         //List<Collider> hitColliders = Physics.OverlapSphere(pos, potCheckBoxSize, playerLayer).ToList();
@@ -281,13 +298,13 @@ public class PlayerController : MonoBehaviour
         hitColliders = Physics.OverlapBox(pos, potCheckBoxSize, Quaternion.identity, playerLayer).ToList();
         //hitColliders = Physics.OverlapSphere(pos, potCheckBoxSize, playerLayer).ToList();
 
-        //Delete Self from hitColliders
+        // Delete Self from hitColliders
         //Collider selfCollider = GetComponent<Collider>();
         //if(hitColliders.Contains(selfCollider)) {
             hitColliders.Remove(selfCollider);
         //}
 
-        //If anything was found, then it has PoT
+        // If anything was found, then it has PoT
         if (hitColliders.Count > 0)
             return true;
 
@@ -302,6 +319,7 @@ public class PlayerController : MonoBehaviour
     //   <Player Input>   //
     ////////////////////////
     public void OnMove(InputAction.CallbackContext value) {
+        // Can't move while attacking
         inputX = value.ReadValue<Vector2>().x;
         inputY = value.ReadValue<Vector2>().y;
     }
@@ -310,10 +328,8 @@ public class PlayerController : MonoBehaviour
         // CallbackContext are Finite-State Machines:
         // started -> performed -> canceled
 
-        //if(value.performed || value.canceled) {
         if(value.performed) {
             inputJ = value.ReadValueAsButton();
-            //Debug.Log("Entrou OnJump(): " + inputJ);
         }
     }
 
@@ -348,25 +364,25 @@ public class PlayerController : MonoBehaviour
 
 
 
-    //Draws fancy stuff on editor scene viewer
+    // Draws fancy stuff on editor scene viewer
     void OnDrawGizmosSelected()
     {
-        //Ground check sphere
+        // Ground check sphere
         Gizmos.color = Color.yellow;
         Vector3 pos = transform.position + (-transform.up * bottomOffset);
         Gizmos.DrawWireSphere(pos, groundCheckRadius);
 
-        //Ground player doublecheck box
+        // Ground player doublecheck box
         Gizmos.color = new Color(1, 0.647f, 0, 1); //orange
         pos = transform.position + (-transform.up * topOffset);
         Gizmos.DrawWireCube(pos, potCheckBoxSize*2);
 
-        //Ceiling check sphere
+        // Ceiling check sphere
         Gizmos.color = Color.yellow;
         pos = transform.position + (transform.up * bottomOffset);
         Gizmos.DrawWireSphere(pos, groundCheckRadius);
         
-        //PoT check sphere
+        // PoT check sphere
         Gizmos.color = new Color(1, 0.647f, 0, 1); //orange
         pos = transform.position + (transform.up * topOffset);
         Gizmos.DrawWireCube(pos, potCheckBoxSize*2);
