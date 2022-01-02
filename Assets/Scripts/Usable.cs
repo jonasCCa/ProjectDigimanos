@@ -57,9 +57,11 @@ public class Usable : Item
 
         // If adding will get larger than Maximum, adds till Maximum and return leftovers
         if(quantity+amount > maxQuantity) {
+            int leftovers = quantity+amount - maxQuantity;
+
             quantity = maxQuantity;
 
-            return quantity+amount - maxQuantity;
+            return leftovers;
         }
         
         // If adding won't get larger than Maximum, add everything and return 0 leftovers

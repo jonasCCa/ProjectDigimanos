@@ -36,6 +36,7 @@ public class InventoryController : MonoBehaviour
         int itemIndex = -1;
         for(int i=0; i<itemList.Count; i++) {
             if(itemList[i].ID == item.ID) {
+                //Debug.Log(itemList[i].ID + " == " + item.ID);
                 itemIndex = i;
                 break; 
             }
@@ -79,6 +80,9 @@ public class InventoryController : MonoBehaviour
 
             // If item was used, remove 1. If there are no items left, remove it
             if(used) {
+
+                Debug.Log("Used" + item.ID + ": " + item.quantity + "(" + item.GetMax() + ")" + " -> " + (item.quantity-1));
+                
                 item.RemoveQuantity(1);
                 if(item.GetQuantity() == 0) {
                     itemList.RemoveAt(index);

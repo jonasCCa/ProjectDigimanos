@@ -358,7 +358,7 @@ public class PlayerController : MonoBehaviour
                         // Adds item to inventory and gets leftovers
                         int leftovers = inventory.AddItem(auxContainer.uItem);
                         if(leftovers != 0) {
-                            auxContainer.uItem.RemoveQuantity(leftovers);
+                            auxContainer.uItem.RemoveQuantity(auxContainer.uItem.quantity - leftovers);
                         } else {
                             Destroy(itemOnGround.gameObject);
                         }
