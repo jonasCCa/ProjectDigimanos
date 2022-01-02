@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 866135440306408913}
   - component: {fileID: 866135440306408912}
   - component: {fileID: 6749005054635464316}
+  - component: {fileID: 1379205161202059046}
   - component: {fileID: 866135440306408916}
   m_Layer: 10
   m_Name: Player_PlaceHolder
@@ -117,10 +118,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  inventory: {fileID: 0}
   controller: {fileID: 0}
   playerInput: {fileID: 0}
+  itemOnGround: {fileID: 0}
   xSpeed: 10
   ySpeed: 10
+  breakXSpeed: 0
+  breakYSpeed: 0
+  breakTime: 0.2
   turningSpeed: 1750
   isJumping: 0
   jumpForce: 5
@@ -176,6 +182,21 @@ MonoBehaviour:
   curXP: 0
   xpValue: 10
   revive: 0
+--- !u!114 &1379205161202059046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866135440306408943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f8870d199b3f0d4f828631ab500a300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStats: {fileID: 6749005054635464316}
+  itemList: []
+  capacity: 1
 --- !u!114 &866135440306408916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +286,42 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 01bfdc38-6fda-46e8-b3dd-350b4d3161e8
     m_ActionName: Gameplay/Heavy Attack[/Mouse/rightButton,/USB Gamepad /button4]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 866135440306408912}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnPickup
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 3b6df2e9-988e-44ce-9fb3-05acd39490ea
+    m_ActionName: Gameplay/Pickup Item[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: af30c7db-c6a3-44da-9270-afbf5e87f271
+    m_ActionName: UI/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 866135440306408912}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnShortcut1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 48747cf8-e770-49b1-a1f7-546c10ecd9cc
+    m_ActionName: Gameplay/Item Shortcut 1[/Keyboard/1]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

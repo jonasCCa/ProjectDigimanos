@@ -9,9 +9,11 @@ public class PlayerController : MonoBehaviour
     
     [Header("References")]
     public StatsController stats;
+    public InventoryController inventory;
     public CharacterController controller;
     public PlayerInput playerInput;
     Collider selfCollider;
+    public Collider itemOnGround;
 
     [Header("Movement Control")]
     public float xSpeed = 10;
@@ -73,6 +75,7 @@ public class PlayerController : MonoBehaviour
         weapon = GetComponentInChildren<WeaponController>();
 
         stats = GetComponent<StatsController>();
+        inventory = GetComponent<InventoryController>();
         
         selfCollider = GetComponent<Collider>();
         playerInput = GetComponent<PlayerInput>();
@@ -311,6 +314,18 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    // Stores reference to Item On Ground
+    void OnTriggerEnter(Collider other) {
+        itemOnGround = other;
+    }
+
+    // Removes reference to Item on Ground, if it's the same
+    void OnTriggerExit(Collider other) {
+        if(itemOnGround == other) {
+            itemOnGround = null;
+        }
+    }
+
 
     ////////////////////////
     //  New Input System  //
@@ -330,6 +345,30 @@ public class PlayerController : MonoBehaviour
 
         if(value.performed) {
             inputJ = value.ReadValueAsButton();
+        }
+    }
+
+    public void OnPickup(InputAction.CallbackContext value) {
+        if(value.performed && value.ReadValueAsButton()==true) {
+            if(itemOnGround != null) {
+                ItemContainer auxContainer = itemOnGround.gameObject.GetComponent<ItemContainer>();
+
+                switch(auxContainer.itemType) {
+                    case ItemContainer.ItemType.Usable:
+                        // Adds item to inventory and gets leftovers
+                        int leftovers = inventory.AddItem(auxContainer.uItem);
+                        if(leftovers != 0) {
+                            auxContainer.uItem.RemoveQuantity(leftovers);
+                        } else {
+                            Destroy(itemOnGround.gameObject);
+                        }
+                        break;
+                    case ItemContainer.ItemType.Equipable:
+                        if(inventory.AddItem(auxContainer.eItem) == 0)
+                            Destroy(itemOnGround.gameObject);
+                        break;
+                }
+            }
         }
     }
 
@@ -361,7 +400,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    public void OnShortcut1(InputAction.CallbackContext value) {
+        if(value.performed && value.ReadValueAsButton()==true && inventory != null) {
+            // PLACE-HOLDER
+            inventory.UseItemByIndex(0);
+        }
+    }
 
 
     // Draws fancy stuff on editor scene viewer

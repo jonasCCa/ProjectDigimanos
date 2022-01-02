@@ -49,12 +49,17 @@ public class StatsController : MonoBehaviour
             return false;
         }
         
+        string log = "Healed: " + curHP;
         // Else, adds the ammount recieved
         curHP += hpValue;
+
         // Clamps to Maximum HP, if necessary
         if(curHP > maxHP) {
             curHP = maxHP;
         }
+
+        Debug.Log(log + " -> " + curHP);
+        
         return true;
     }
 

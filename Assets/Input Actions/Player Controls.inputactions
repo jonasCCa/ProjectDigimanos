@@ -36,6 +36,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Pickup Item",
+                    "type": "Button",
+                    "id": "3b6df2e9-988e-44ce-9fb3-05acd39490ea",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Item Shortcut 1",
+                    "type": "Button",
+                    "id": "48747cf8-e770-49b1-a1f7-546c10ecd9cc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -212,6 +228,55 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Heavy Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d15d98b1-fb4e-46d8-aa71-2807c6d02a4c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "Pickup Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5d4d2415-5851-406c-aeac-c9ad1c18b27b",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "5530d454-3f27-43f7-9766-c15cf2118107",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "af30c7db-c6a3-44da-9270-afbf5e87f271",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a9925acd-bb5c-4978-84ac-71e5f70d416e",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
