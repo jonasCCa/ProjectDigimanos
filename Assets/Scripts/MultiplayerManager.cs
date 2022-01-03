@@ -32,12 +32,16 @@ public class MultiplayerManager : MonoBehaviour
     // Calculates centroid between all players
     public Vector3 calculateTargetPosition() {
         Vector3 newTarget = new Vector3();
+        int playerCount = 0;
 
         foreach(GameObject player in playerList) {
-            newTarget += player.transform.position;
+            if(player.GetComponent<StatsController>().isAlive) {
+                newTarget += player.transform.position;
+                playerCount++;
+            }
         }
         if(playerList.Count > 0)
-            newTarget = newTarget / playerList.Count;
+            newTarget = newTarget / playerCount;
 
         //Debug.Log(newTarget.ToString());
         return newTarget;
@@ -51,9 +55,11 @@ public class MultiplayerManager : MonoBehaviour
         for(int i=0; i<playerList.Count; i++) {
             for(int j=0; j<playerList.Count; j++) {
                 if(j!=i) {
-                    float aux = Vector3.Distance(playerList[i].transform.position, playerList[j].transform.position);
-                    if(aux > longestDistance) {
-                        longestDistance = aux;
+                    if(playerList[i].GetComponent<StatsController>().isAlive && playerList[j].GetComponent<StatsController>().isAlive) {
+                        float aux = Vector3.Distance(playerList[i].transform.position, playerList[j].transform.position);
+                        if(aux > longestDistance) {
+                            longestDistance = aux;
+                        }
                     }
                 }
             }

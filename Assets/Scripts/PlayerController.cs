@@ -131,8 +131,8 @@ public class PlayerController : MonoBehaviour
             // If player is not recieving knockback, continue as normal
             if(!isKnockbacked) {
                 
-                // Can't move while attacking
-                if(!isAttacking) {
+                // Can't move while attacking nor blocking
+                if(!isAttacking && !isBlocking) {
                     // Initializes movement calculation
                     movement = new Vector3(inputX, 0, inputY);
                     breakXSpeed = inputX;
@@ -342,7 +342,8 @@ public class PlayerController : MonoBehaviour
 
     // Stores reference to Item On Ground
     void OnTriggerEnter(Collider other) {
-        itemOnGround = other;
+        if(other.gameObject.layer == 20)
+            itemOnGround = other;
     }
 
     // Removes reference to Item on Ground, if it's the same
