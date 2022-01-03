@@ -67,8 +67,21 @@ public class StatsController : MonoBehaviour
     // Sends Knockback back to controller
     // Returns XP ammount if killed, returns 0 if not
     public int TakeDamage(int dmgValue, int kbValue, Vector3 attackerPosition) {
-        string log = "Damaged: " + curHP;
+        bool isBlocking = false;
+        if(isPlayer)
+            isBlocking = playerController.isBlocking;
+
+        // If it's blocking, don't recieve damage
+        //      Maybe recieve less damage instead of 0? Open for discussion
+        if(isBlocking) {
+            if(isPlayer)
+                playerController.Knockback(kbValue, attackerPosition);
+
+            return 0;
+        }
         
+        string log = "Damaged: " + curHP;
+            
         curHP -= dmgValue;
         
         Debug.Log(log + " -> " + curHP);

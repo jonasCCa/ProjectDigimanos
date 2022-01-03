@@ -38,6 +38,14 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
+                    "name": "Defend",
+                    "type": "Button",
+                    "id": "6fad8e36-c769-410a-8bf0-4eb20a9f19d6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
                     "name": "Pickup Item",
                     "type": "Button",
                     "id": "3b6df2e9-988e-44ce-9fb3-05acd39490ea",
@@ -250,6 +258,83 @@
                     "processors": "",
                     "groups": "Keyboard/Mouse",
                     "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9d426fc-e4d9-4042-8d84-eca8d59a4132",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9153a6d-4245-4587-bebb-240c54848af9",
+                    "path": "<HID::USB Gamepad >/button5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7169b8f9-e19d-4903-8cbf-3a4fb0844cc4",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "Defend",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "be08ae12-9707-42b5-bac6-5431bd548b37",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Defend",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "51186950-2d71-4284-a2cf-cfb36509f074",
+                    "path": "<HID::USB Gamepad >/button2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Defend",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "19f35291-a61d-459b-be85-d5881a6b0c21",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Pickup Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f95fe9d0-89d6-430c-9556-7e93efca26de",
+                    "path": "<HID::USB Gamepad >/button3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Pickup Item",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

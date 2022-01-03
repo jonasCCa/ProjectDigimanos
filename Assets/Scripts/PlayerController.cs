@@ -43,10 +43,16 @@ public class PlayerController : MonoBehaviour
     public Vector3 potCheckBoxSize = new Vector3(){x = 0.5f, y = 0.3f, z = 0.5f};
     public float topOffset = 1;
 
-    [Header("Attacking")]
+    [Header("Attack & Defense")]
     public WeaponController weapon;
     public Animator animator;
     [SerializeField] private bool isAttacking;
+    public bool isBlocking;
+    
+    //   Place-holder for blocking effect
+        [SerializeField] private GameObject block;
+        [SerializeField] private Material blockBase;
+        [SerializeField] private Material blockEffect;
 
     [Header("Knockback")]
     [SerializeField] private bool isKnockbacked;
@@ -95,8 +101,23 @@ public class PlayerController : MonoBehaviour
         if(!animator.IsInTransition(0)) {
             if(animator.GetCurrentAnimatorStateInfo(0).IsName("Light_Attack") || animator.GetCurrentAnimatorStateInfo(0).IsName("Heavy_Attack"))
                 isAttacking = true;
-            else if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            else if(animator.GetCurrentAnimatorStateInfo(0).IsName("Block"))
+                isBlocking = true;
+            else if(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
                 isAttacking = false;
+            }
+        } else {
+            isBlocking = false;
+        }
+
+
+        if(isBlocking) {
+            block.SetActive(true);
+            if(isKnockbacked)
+                block.GetComponent<MeshRenderer>().material = blockEffect;
+        } else {
+            block.SetActive(false);
+            block.GetComponent<MeshRenderer>().material = blockBase;
         }
     }
 
@@ -220,14 +241,20 @@ public class PlayerController : MonoBehaviour
         // Face attacker
         transform.LookAt(attacker);
 
-        // Place-holder for knockback animation
-        lasEulerX = transform.eulerAngles.x;
-        transform.eulerAngles = new Vector3(-20,transform.eulerAngles.y,transform.eulerAngles.z);
+        if(!isBlocking) {
+            // Place-holder for knockback animation
+            lasEulerX = transform.eulerAngles.x;
+            transform.eulerAngles = new Vector3(-20,transform.eulerAngles.y,transform.eulerAngles.z);
 
-        // To avoid flying
-        isJumping = true;
-        
-        knockbackValue = kbValue;
+            // To avoid flying
+            isJumping = true;
+            
+            knockbackValue = kbValue;
+        } else {
+            // If it's blocking, reset blocking animation and recieve half of knockback force
+            animator.Play("Block", 0, 0.0526315f);
+            knockbackValue = kbValue / 2f;
+        }
         
         // Calculate direction that the knockback was recieved
         knockbackDirection = transform.position - attacker;
@@ -236,7 +263,6 @@ public class PlayerController : MonoBehaviour
         // Normalize direction vector
         knockbackDirection /= knockbackDirection.magnitude;
     }
-
 
     //Debugging purposes
     //[Header("Collision Debugging")]
@@ -375,8 +401,8 @@ public class PlayerController : MonoBehaviour
     public void OnLightAttack(InputAction.CallbackContext value) {
         // Can only attack when isn't recieving knockback and isn't dead
         if(!isKnockbacked && stats != null && stats.isAlive) {
-            // Can only attack when is not attacking already (+button checks)
-            if(value.performed && value.ReadValueAsButton()==true && !isAttacking) {
+            // Can only attack when is not attacking already nor blocking (+button checks)
+            if(value.performed && value.ReadValueAsButton()==true && !isAttacking && !isBlocking) {
                 // Send attack information to weapon
                 weapon.SetAttackType("Light_Attack");
                 // Play attacking animation
@@ -389,13 +415,25 @@ public class PlayerController : MonoBehaviour
     public void OnHeavyAttack(InputAction.CallbackContext value) {
         // Can only attack when isn't recieving knockback
         if(!isKnockbacked && stats != null && stats.isAlive) {
-            // Can only attack when is not attacking already (+button checks)
-            if(value.performed && value.ReadValueAsButton()==true && !isAttacking) {
+            // Can only attack when is not attacking already nor blocking (+button checks)
+            if(value.performed && value.ReadValueAsButton()==true && !isAttacking && !isBlocking) {
                 // Send attack information to weapon
                 weapon.SetAttackType("Heavy_Attack");
                 // Play attacking animation
                 if(animator.isActiveAndEnabled)
                     animator.Play("Heavy_Attack");
+            }
+        }
+    }
+
+    public void OnDenfend(InputAction.CallbackContext value) {
+        // Can only block when isn't recieving knockback
+        if(!isKnockbacked && stats != null && stats.isAlive) {
+            // Can only block when is not attacking nor blocking (+button checks)
+            if(value.performed && value.ReadValueAsButton()==true && !isAttacking && !isBlocking) {
+                // Play blocking animation
+                if(animator.isActiveAndEnabled)
+                    animator.Play("Block");
             }
         }
     }
