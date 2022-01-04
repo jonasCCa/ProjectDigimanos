@@ -71,8 +71,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float timeOnGround;
     [SerializeField] private float timeSinceGrounded;
 
-    [Header("Tests")]
+    [Header("UI")]
     public GameObject indicator;
+
     //Debugging purposes
     //[SerializeField] private Vector3 movement;
 

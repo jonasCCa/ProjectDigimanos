@@ -41,8 +41,8 @@ public class WeaponController : MonoBehaviour
             
             StatsController targetStats = other.gameObject.GetComponent<StatsController>();
             if(targetStats != null) {
-                playerStats.curXP += targetStats.TakeDamage((int)(playerStats.atk * curDmgMultiplier),
-                                                            knockbackAmount, parentPlayer.transform.position);
+                playerStats.GainExp(targetStats.TakeDamage((int)(playerStats.atk * curDmgMultiplier),
+                                                   knockbackAmount, parentPlayer.transform.position));
             }
         }
     }

@@ -8,6 +8,9 @@ public class StatsController : MonoBehaviour
     public bool isPlayer;
     public PlayerController playerController;
     public bool isEnemy;
+    public BarController hpBar;
+    public BarController mpBar;
+    public BarController expBar;
 
     [Header("Stats")]
     public bool isAlive;
@@ -16,7 +19,9 @@ public class StatsController : MonoBehaviour
     public int atk = 7;
 
     [Header("Level XP")]
+    public int level = 1;
     public int curXP;
+    public int reqXP = 100;
 
     public int xpValue = 10; // Used for XP gain, if killed
 
@@ -28,6 +33,10 @@ public class StatsController : MonoBehaviour
             playerController = GetComponent<PlayerController>();
         //if(isEnemy)
         //  enemyController
+
+        hpBar.maxValue = maxHP;
+        //mpBar.maxValue = maxMP;
+        expBar.maxValue = reqXP;
     }
 
 
@@ -59,6 +68,9 @@ public class StatsController : MonoBehaviour
         }
 
         Debug.Log(log + " -> " + curHP);
+
+        // Updates HP bar
+        hpBar.currentValue = curHP;
         
         return true;
     }
@@ -86,6 +98,9 @@ public class StatsController : MonoBehaviour
         
         Debug.Log(log + " -> " + curHP);
 
+        // Updates HP bar
+        hpBar.currentValue = curHP;
+
         // If dies, return XP Amount and flags death
         if(curHP <= 0) {
             Dies();
@@ -100,6 +115,13 @@ public class StatsController : MonoBehaviour
         return 0;
     }
 
+    public void GainExp(int xpGain) {
+        curXP += xpGain;
+
+        // Updates exp bar
+        expBar.currentValue = curXP;
+    }
+
     void Dies() {
         isAlive = false;
 
@@ -112,6 +134,9 @@ public class StatsController : MonoBehaviour
 
         // Place-holder value until decided differently
         curHP = maxHP/10;
+
+        // Updates HP bar
+        hpBar.currentValue = curHP;
 
         // Place-holder for Reviving animation
         transform.eulerAngles = new Vector3(0,transform.eulerAngles.y,transform.eulerAngles.z);

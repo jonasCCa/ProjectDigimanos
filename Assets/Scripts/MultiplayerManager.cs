@@ -11,10 +11,13 @@ public class MultiplayerManager : MonoBehaviour
     [SerializeField] private List<GameObject> playerList;
     [SerializeField] private CameraController cController;
 
+    [Header("UI")]
+    public List<GameObject> playerIndicators;
+    public List<GameObject> playerUI;
+    public List<BarController> barControllers;
+
     [Header("Tests")]
     public List<Material> playerMaterials;
-    public List<GameObject> playerIndicators;
-
 
     // Start is called before the first frame update
     void Start()
@@ -87,8 +90,17 @@ public class MultiplayerManager : MonoBehaviour
     public void OnPlayerJoined(PlayerInput pI) {
         playerList.Add(pI.gameObject);
 
+        // Place-holder for player model
         pI.gameObject.GetComponent<MeshRenderer>().material = playerMaterials[pI.playerIndex];
         pI.gameObject.GetComponent<PlayerController>().indicator = playerIndicators[pI.playerIndex];
+        
+        // Activate player's UI
+        playerUI[pI.playerIndex].SetActive(true);
+
+        // Update player bars
+        pI.gameObject.GetComponent<StatsController>().hpBar = barControllers[3*pI.playerIndex];
+        pI.gameObject.GetComponent<StatsController>().mpBar = barControllers[3*pI.playerIndex + 1];
+        pI.gameObject.GetComponent<StatsController>().expBar = barControllers[3*pI.playerIndex + 2];
 
         Debug.Log("Player Joined; ID: " + pI.playerIndex);
 
@@ -106,6 +118,9 @@ public class MultiplayerManager : MonoBehaviour
                 playerList.RemoveAt(i);
             }
         }
+
+        // Dectivate player's UI
+        playerUI[pI.playerIndex].SetActive(false);
 
         Debug.Log("Player Left; ID: " + pI.playerIndex);
 
