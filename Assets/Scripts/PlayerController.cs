@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("UI")]
     public GameObject indicator;
+    public GameObject playerMenu;
 
     //Debugging purposes
     //[SerializeField] private Vector3 movement;
@@ -87,6 +88,9 @@ public class PlayerController : MonoBehaviour
         selfCollider = GetComponent<Collider>();
         playerInput = GetComponent<PlayerInput>();
         //playerInput.SwitchCurrentActionMap("Gameplay");
+
+        GetComponent<UIPlayerController>().scrollTransform = playerMenu.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<RectTransform>();
+        inventory.listParentUI = GetComponent<UIPlayerController>().scrollTransform.gameObject;
 
         controller = GetComponent<CharacterController>();
 
@@ -444,6 +448,19 @@ public class PlayerController : MonoBehaviour
         if(value.performed && value.ReadValueAsButton()==true && inventory != null) {
             // PLACE-HOLDER
             inventory.UseItemByIndex(0);
+        }
+    }
+
+
+
+
+
+    public void OnOpenMenu(InputAction.CallbackContext value) {
+        if(playerInput != null) {
+            if(value.ReadValueAsButton()==true && value.performed) {
+                playerMenu.SetActive(true);
+                playerInput.SwitchCurrentActionMap("UI");
+            }
         }
     }
 

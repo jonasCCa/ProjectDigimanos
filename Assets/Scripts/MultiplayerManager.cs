@@ -93,6 +93,7 @@ public class MultiplayerManager : MonoBehaviour
         // Place-holder for player model
         pI.gameObject.GetComponent<MeshRenderer>().material = playerMaterials[pI.playerIndex];
         pI.gameObject.GetComponent<PlayerController>().indicator = playerIndicators[pI.playerIndex];
+        pI.gameObject.GetComponent<PlayerController>().playerMenu = playerUI[pI.playerIndex].transform.GetChild(0).gameObject;
         
         // Activate player's UI
         playerUI[pI.playerIndex].SetActive(true);

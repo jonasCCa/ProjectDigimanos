@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 866135440306408940}
   - component: {fileID: 866135440306408913}
   - component: {fileID: 866135440306408912}
+  - component: {fileID: -1486888705794933773}
   - component: {fileID: 6749005054635464316}
   - component: {fileID: 1379205161202059046}
   - component: {fileID: 866135440306408916}
@@ -165,6 +166,26 @@ MonoBehaviour:
   timeOnGround: 0
   timeSinceGrounded: 0
   indicator: {fileID: 0}
+  playerMenu: {fileID: 0}
+--- !u!114 &-1486888705794933773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866135440306408943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abe88df440d50146aa2779785c634bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 866135440306408912}
+  scrollTransform: {fileID: 0}
+  index: 0
+  maxIndex: 7
+  visibleItems: 6
+  wasPressed: 0
+  elementHeight: 21.538
 --- !u!114 &6749005054635464316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,11 +201,16 @@ MonoBehaviour:
   isPlayer: 1
   playerController: {fileID: 0}
   isEnemy: 0
+  hpBar: {fileID: 0}
+  mpBar: {fileID: 0}
+  expBar: {fileID: 0}
   isAlive: 1
   maxHP: 100
   curHP: 100
   atk: 5
+  level: 1
   curXP: 0
+  reqXP: 100
   xpValue: 10
   revive: 0
 --- !u!114 &1379205161202059046
@@ -200,8 +226,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats: {fileID: 6749005054635464316}
+  uIPlayerController: {fileID: -1486888705794933773}
   itemList: []
   capacity: 1
+  listParentUI: {fileID: 0}
+  itemPrefab: {fileID: 5120153734139097445, guid: f5e5f4e5dfe11844f87c5b7a538c5aea, type: 3}
 --- !u!114 &866135440306408916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,7 +337,19 @@ MonoBehaviour:
     m_ActionId: 3b6df2e9-988e-44ce-9fb3-05acd39490ea
     m_ActionName: Gameplay/Pickup Item[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -1486888705794933773}
+        m_TargetAssemblyTypeName: UIPlayerController, Assembly-CSharp
+        m_MethodName: OnNavigateUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: af30c7db-c6a3-44da-9270-afbf5e87f271
     m_ActionName: UI/New action
   - m_PersistentCalls:
@@ -343,6 +384,71 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6fad8e36-c769-410a-8bf0-4eb20a9f19d6
     m_ActionName: Gameplay/Defend[/Keyboard/leftShift,/USB Gamepad /button2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1486888705794933773}
+        m_TargetAssemblyTypeName: UIPlayerController, Assembly-CSharp
+        m_MethodName: OnNavigateDown
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: adff8a87-bdf8-4ea4-9e78-43c42eacf911
+    m_ActionName: UI/Navigate Down[/Keyboard/s,/USB Gamepad /stick/down,/USB Gamepad
+      /hat/down]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1486888705794933773}
+        m_TargetAssemblyTypeName: UIPlayerController, Assembly-CSharp
+        m_MethodName: OnSelect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 12e098b6-9434-493f-9213-451ad3392ed8
+    m_ActionName: UI/Select[/Keyboard/e,/USB Gamepad /button3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 866135440306408912}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnOpenMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 050ab715-3b4e-4e54-a3fb-67444c72c974
+    m_ActionName: Gameplay/Open Menu[/Keyboard/tab,/USB Gamepad /button9]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1486888705794933773}
+        m_TargetAssemblyTypeName: UIPlayerController, Assembly-CSharp
+        m_MethodName: OnCloseMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: d3db3490-33b2-4f98-a7ed-f0b14a8e0f85
+    m_ActionName: UI/Close Menu[/Keyboard/tab,/USB Gamepad /button9]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay
