@@ -7,7 +7,6 @@ public class UIPlayerController : MonoBehaviour
 {
     public PlayerController playerController;
     public RectTransform scrollTransform;
-    //public GameObject itemList;
     public int index;
     public int maxIndex;
     public int visibleItems;
@@ -61,10 +60,29 @@ public class UIPlayerController : MonoBehaviour
         }
     }
 
-    public void UpdateSelected() {
-        if(maxIndex >= index)
-            scrollTransform.GetChild(index).GetComponent<ListItemController>().SetSelected();
-        
+    // Updates what element is selected after a change in the inventory
+    public void UpdateSelected(bool used) {
+        //if(index > maxIndex) {
+        //    if(maxIndex >= 0)
+        //        index = maxIndex;
+        //    else
+        //        index = 0;
+        //}
+        if(maxIndex>=0) {
+            if(used) {
+                if(index < maxIndex+1) {
+                    scrollTransform.GetChild(index+1).GetComponent<ListItemController>().SetSelected();
+                } else {
+                    scrollTransform.GetChild(index-1).GetComponent<ListItemController>().SetSelected();
+                    index = maxIndex;
+                }
+            } else {
+                if(maxIndex == 0) {
+                    index = 0;
+                    scrollTransform.GetChild(index).GetComponent<ListItemController>().SetSelected();
+                }
+            }
+        }
     }
 
     public void OnNavigateUp(InputAction.CallbackContext value) {
@@ -100,7 +118,8 @@ public class UIPlayerController : MonoBehaviour
             if(value.ReadValueAsButton()==true) {
                 if(!wasPressed) {
                     wasPressed = true;
-
+                    // Place-holder for sub menu, for now it uses the item
+                    GetComponent<InventoryController>().UseItemByIndex(index);
                 }
             } else {
                 wasPressed = false;

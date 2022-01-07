@@ -39,6 +39,7 @@ public class InventoryController : MonoBehaviour
                 itemAux.GetComponent<ListItemController>().UpdateItem(item);
                 // Updates list size on UI
                 uIPlayerController.SetMaxIndex(itemList.Count-1);
+                uIPlayerController.UpdateSelected(false);
             }
 
             return 0;
@@ -73,6 +74,7 @@ public class InventoryController : MonoBehaviour
         itemAux.GetComponent<ListItemController>().UpdateItem(item);
         // Updates list size on UI
         uIPlayerController.SetMaxIndex(itemList.Count-1);
+        uIPlayerController.UpdateSelected(false);
 
         return 0;
     }
@@ -81,38 +83,81 @@ public class InventoryController : MonoBehaviour
     public void UseItemByIndex(int index) {
         // If index is valid 
         if(index < itemList.Count) {
-            Usable item = (Usable)itemList[index];
+            // Can only use Usable Items
+            if(itemList[index] is Usable) {
+                Usable item = (Usable)itemList[index];
 
-            List<string> itemEffects = item.Use();
+                List<string> itemEffects = item.Use();
 
-            bool used = false;
+                bool used = false;
 
-            // For each effect, apply it and flags item as "used" appropriately
-            foreach(string usage in itemEffects) {
-                string[] aux = usage.Split(';');
+                // For each effect, apply it and flags item as "used" appropriately
+                foreach(string usage in itemEffects) {
+                    string[] aux = usage.Split(';');
 
-                switch(aux[0]) {
-                    case "HP":
-                        used = playerStats.Heal(int.Parse(aux[1]));
-                        break;
+                    switch(aux[0]) {
+                        case "HP":
+                            used = playerStats.Heal(int.Parse(aux[1]));
+                            break;
+                        case "MP":
+                            used = playerStats.RestoreMP(int.Parse(aux[1]));
+                            break;
+                        case "BHP":
+                            used = playerStats.RecieveBuff(AttType.HP,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "BMP":
+                            used = playerStats.RecieveBuff(AttType.MP,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "BStr":
+                            used = playerStats.RecieveBuff(AttType.STR,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "BWis":
+                            used = playerStats.RecieveBuff(AttType.WIS,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "BCon":
+                            used = playerStats.RecieveBuff(AttType.CON,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "BMin":
+                            used = playerStats.RecieveBuff(AttType.MIN,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "NHP":
+                            used = playerStats.RecieveNerf(AttType.HP,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "NMP":
+                            used = playerStats.RecieveNerf(AttType.MP,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "NStr":
+                            used = playerStats.RecieveNerf(AttType.STR,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "NWis":
+                            used = playerStats.RecieveNerf(AttType.WIS,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "NCon":
+                            used = playerStats.RecieveNerf(AttType.CON,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                        case "NMin":
+                            used = playerStats.RecieveNerf(AttType.MIN,int.Parse(aux[1]),int.Parse(aux[2]));
+                            break;
+                    }
                 }
-            }
 
-            // If item was used, remove 1. If there are no items left, remove it
-            if(used) {
-                Debug.Log("Used" + item.ID + ": " + item.quantity + "(" + item.GetMax() + ")" + " -> " + (item.quantity-1));
-                
-                item.RemoveQuantity(1);
+                // If item was used, remove 1. If there are no items left, remove it
+                if(used) {
+                    Debug.Log("Used" + item.ID + ": " + item.quantity + "(" + item.GetMax() + ")" + " -> " + (item.quantity-1));
+                    
+                    item.RemoveQuantity(1);
 
-                if(item.GetQuantity() == 0) {
-                    itemList.RemoveAt(index);
-                    // Destroys item on inventory UI
-                    Destroy(listParentUI.transform.GetChild(index));
-                    // Updates list size on UI
-                    uIPlayerController.SetMaxIndex(itemList.Count-1);
-                } else {
-                    // Updates item quantity on inventory UI
-                    listParentUI.transform.GetChild(index).GetComponent<ListItemController>().UpdateItemQuantity(item.GetQuantity());
+                    if(item.GetQuantity() == 0) {
+                        itemList.RemoveAt(index);
+                        // Destroys item on inventory UI
+                        Destroy(listParentUI.transform.GetChild(index).gameObject);
+                        // Updates list size on UI
+                        uIPlayerController.SetMaxIndex(itemList.Count-1);
+                        uIPlayerController.UpdateSelected(true);
+                    } else {
+                        // Updates item quantity on inventory UI
+                        listParentUI.transform.GetChild(index).GetComponent<ListItemController>().UpdateItemQuantity(item.GetQuantity());
+                    }
                 }
             }
         }

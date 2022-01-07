@@ -204,15 +204,45 @@ MonoBehaviour:
   hpBar: {fileID: 0}
   mpBar: {fileID: 0}
   expBar: {fileID: 0}
-  isAlive: 1
-  maxHP: 100
-  curHP: 100
-  atk: 5
   level: 1
   curXP: 0
   reqXP: 100
+  isAlive: 1
+  maxHP: 100
+  curHP: 100
+  maxMP: 100
+  curMP: 100
+  str: 7
+  wis: 0
+  con: 0
+  min: 0
+  curBonuses: 
+  bonusHP: 0
+  bonHPDuration: 0
+  bonusMP: 0
+  bonMPDuration: 0
+  bonusStr: 0
+  bonStrDuration: 0
+  bonusWis: 0
+  bonWisDuration: 0
+  bonusCon: 0
+  bonConDuration: 0
+  bonusMin: 0
+  bonMinDuration: 0
+  curNerfs: 
+  nerfHP: 0
+  nerfHPDuration: 0
+  nerfMP: 0
+  nerfMPDuration: 0
+  nerfStr: 0
+  nerfStrDuration: 0
+  nerfWis: 0
+  nerfWisDuration: 0
+  nerfCon: 0
+  nerfConDuration: 0
+  nerfMin: 0
+  nerfMinDuration: 0
   xpValue: 10
-  revive: 0
 --- !u!114 &1379205161202059046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +258,7 @@ MonoBehaviour:
   playerStats: {fileID: 6749005054635464316}
   uIPlayerController: {fileID: -1486888705794933773}
   itemList: []
-  capacity: 1
+  capacity: 10
   listParentUI: {fileID: 0}
   itemPrefab: {fileID: 5120153734139097445, guid: f5e5f4e5dfe11844f87c5b7a538c5aea, type: 3}
 --- !u!114 &866135440306408916
