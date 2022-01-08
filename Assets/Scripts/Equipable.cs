@@ -13,6 +13,7 @@ public class Equipable : Item
 
         aux.ID = original.ID;
         aux.value = original.value;
+        aux.itemObject = original.itemObject;
 
         if(original.IsEquipped())
             aux.Equip();

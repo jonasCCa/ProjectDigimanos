@@ -308,7 +308,7 @@ public class PlayerController : MonoBehaviour
         // Initializes point to check ceiling 
         Vector3 pos = transform.position + (direction * bottomOffset);
         // Check objects within a certain raidus from that point
-        hitColliders = Physics.OverlapSphere(pos, groundCheckRadius).ToList();
+        hitColliders = Physics.OverlapSphere(pos, groundCheckRadius, groundLayer).ToList();
 
 
         hitColliders.Remove(selfCollider);

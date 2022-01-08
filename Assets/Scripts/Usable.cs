@@ -28,6 +28,8 @@ public class Usable : Item
         aux.ID = original.ID;
         aux.value = original.value;
 
+        aux.itemObject = original.itemObject;
+
         aux.HP = original.HP;
         aux.MP = original.MP;
         aux.Str = original.Str;

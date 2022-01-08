@@ -61,7 +61,7 @@ public class UIPlayerController : MonoBehaviour
     }
 
     // Updates what element is selected after a change in the inventory
-    public void UpdateSelected(bool used) {
+    public void UpdateSelected(bool removed) {
         //if(index > maxIndex) {
         //    if(maxIndex >= 0)
         //        index = maxIndex;
@@ -69,7 +69,7 @@ public class UIPlayerController : MonoBehaviour
         //        index = 0;
         //}
         if(maxIndex>=0) {
-            if(used) {
+            if(removed) {
                 if(index < maxIndex+1) {
                     scrollTransform.GetChild(index+1).GetComponent<ListItemController>().SetSelected();
                 } else {
@@ -120,6 +120,9 @@ public class UIPlayerController : MonoBehaviour
                     wasPressed = true;
                     // Place-holder for sub menu, for now it uses the item
                     GetComponent<InventoryController>().UseItemByIndex(index);
+
+                    // Place-holder for sub menu, for now it drops the item
+                    //GetComponent<InventoryController>().DropItemByIndex(index);
                 }
             } else {
                 wasPressed = false;

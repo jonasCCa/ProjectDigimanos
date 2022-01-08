@@ -259,8 +259,9 @@ MonoBehaviour:
   uIPlayerController: {fileID: -1486888705794933773}
   itemList: []
   capacity: 10
-  listParentUI: {fileID: 0}
+  listParentUI: {fileID: 3285075396151851027, guid: 13d1172555a7799429a54b10a4a4c1fc, type: 3}
   itemPrefab: {fileID: 5120153734139097445, guid: f5e5f4e5dfe11844f87c5b7a538c5aea, type: 3}
+  itemContainerPrefab: {fileID: 3285075396151851027, guid: 13d1172555a7799429a54b10a4a4c1fc, type: 3}
 --- !u!114 &866135440306408916
 MonoBehaviour:
   m_ObjectHideFlags: 0

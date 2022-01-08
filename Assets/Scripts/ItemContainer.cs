@@ -12,4 +12,15 @@ public class ItemContainer : MonoBehaviour
 
     public Usable uItem;
     public Equipable eItem;
+
+    public void InstantiateItem() {
+        if(itemType==ItemType.Usable) {
+            Instantiate(uItem.itemObject,transform.position,Quaternion.identity,transform);
+            return;
+        }
+        if(itemType==ItemType.Equipable) {
+            Instantiate(eItem.itemObject,transform.position,Quaternion.identity,transform);
+            return;
+        }
+    }
 }

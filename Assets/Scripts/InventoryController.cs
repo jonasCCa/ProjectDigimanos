@@ -14,6 +14,8 @@ public class InventoryController : MonoBehaviour
     public GameObject listParentUI;
     [SerializeField] GameObject itemPrefab;
 
+    [Header(" ")]
+    [SerializeField] GameObject itemContainerPrefab;
 
     void Start() {
         //playerStats = GetComponent<StatsController>();
@@ -163,32 +165,50 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    //
-    // UNUSED
-    //
-    // Uses Item by referencing the item itself
-    public void UseItem(Usable item) {
-        List<string> itemEffects = item.Use();
+    // Drops the item from the inventory to the ground
+    public bool DropItemByIndex(int index) {
+        // If index is valid 
+        if(index < itemList.Count) {
+            // Decide wether to create an Usable or Equipable
+            if(itemList[index] is Usable) {
+                Usable item = (Usable)itemList[index];
 
-        bool used = false;
+                GameObject gO = Instantiate(itemContainerPrefab, transform.position - new Vector3(0,1,0), Quaternion.identity);
+                gO.GetComponent<ItemContainer>().itemType = ItemContainer.ItemType.Usable;
+                gO.GetComponent<ItemContainer>().uItem = item.Clone(item);
+                gO.GetComponent<ItemContainer>().InstantiateItem();
 
-        // For each effect, apply it and flags item as "used" appropriately
-        foreach(string usage in itemEffects) {
-            string[] aux = usage.Split(';');
+                itemList.RemoveAt(index);
+                // Destroys item on inventory UI
+                Destroy(listParentUI.transform.GetChild(index).gameObject);
+                // Updates list size on UI
+                uIPlayerController.SetMaxIndex(itemList.Count-1);
+                uIPlayerController.UpdateSelected(true);
 
-            switch(aux[0]) {
-                case "HP":
-                    used = playerStats.Heal(int.Parse(aux[1]));
-                    break;
+                Debug.Log("Drped " + item.ID);
+
+                return true;
+            } else if(itemList[index] is Equipable) {
+                Equipable item = (Equipable)itemList[index];
+
+                GameObject gO = Instantiate(itemContainerPrefab, transform.position - new Vector3(0,1,0), Quaternion.identity);
+                gO.GetComponent<ItemContainer>().itemType = ItemContainer.ItemType.Equipable;
+                gO.GetComponent<ItemContainer>().eItem = item.Clone(item);
+                gO.GetComponent<ItemContainer>().InstantiateItem();
+
+                itemList.RemoveAt(index);
+                // Destroys item on inventory UI
+                Destroy(listParentUI.transform.GetChild(index).gameObject);
+                // Updates list size on UI
+                uIPlayerController.SetMaxIndex(itemList.Count-1);
+                uIPlayerController.UpdateSelected(true);
+
+                Debug.Log("Drped " + item.ID);
+
+                return true;
             }
         }
-
-        // If item was used, remove 1. If there are no items left, remove it
-        if(used) {
-            item.RemoveQuantity(1);
-            if(item.GetQuantity() == 0) {
-                itemList.Remove(item);
-            }
-        }
+        // If can't drop item, return false
+        return false;
     }
 }
