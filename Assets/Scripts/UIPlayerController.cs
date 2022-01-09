@@ -115,7 +115,7 @@ public class UIPlayerController : MonoBehaviour
 
     public void OnSelect(InputAction.CallbackContext value) {
         if(scrollTransform != null && this.isActiveAndEnabled) {
-            if(value.ReadValueAsButton()==true) {
+            if(value.ReadValueAsButton()==true && playerController.stats.isAlive) {
                 if(!wasPressed) {
                     wasPressed = true;
                     // Place-holder for sub menu, for now it uses the item

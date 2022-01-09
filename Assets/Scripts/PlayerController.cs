@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public CharacterController controller;
     public PlayerInput playerInput;
     Collider selfCollider;
-    public Collider itemOnGround;
+    public List<Collider> itemsOnGround;
 
     [Header("Movement Control")]
     public float xSpeed = 10;
@@ -79,6 +79,8 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] private Vector3 movement;
 
     void Start() {
+        itemsOnGround = new List<Collider>();
+
         // Place-holder for equipment system
         weapon = GetComponentInChildren<WeaponController>();
 
@@ -347,14 +349,21 @@ public class PlayerController : MonoBehaviour
 
     // Stores reference to Item On Ground
     void OnTriggerEnter(Collider other) {
-        if(other.gameObject.layer == 20)
-            itemOnGround = other;
+        if(other.gameObject.layer == 20) {
+            if(!itemsOnGround.Contains(other)) {
+                itemsOnGround.Add(other);
+            }
+            //itemOnGround = other;
+        }
     }
 
-    // Removes reference to Item on Ground, if it's the same
+    // Removes reference to Item on Ground, if it's on the list
     void OnTriggerExit(Collider other) {
-        if(itemOnGround == other) {
-            itemOnGround = null;
+        if(other.gameObject.layer == 20) {
+            if(itemsOnGround.Contains(other)) {
+                itemsOnGround.Remove(other);
+                //itemOnGround = null;
+            }
         }
     }
 
@@ -382,8 +391,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext value) {
         if(value.performed && value.ReadValueAsButton()==true) {
-            if(itemOnGround != null) {
-                ItemContainer auxContainer = itemOnGround.gameObject.GetComponent<ItemContainer>();
+            if(itemsOnGround.Count > 0 && stats.isAlive) { //if(itemOnGround != null) {
+                ItemContainer auxContainer = itemsOnGround[0].gameObject.GetComponent<ItemContainer>();
 
                 switch(auxContainer.itemType) {
                     case ItemContainer.ItemType.Usable:
@@ -392,12 +401,15 @@ public class PlayerController : MonoBehaviour
                         if(leftovers != 0) {
                             auxContainer.uItem.RemoveQuantity(auxContainer.uItem.quantity - leftovers);
                         } else {
-                            Destroy(itemOnGround.gameObject);
+                            itemsOnGround.Remove(itemsOnGround[0]);
+                            Destroy(auxContainer.gameObject);
                         }
                         break;
                     case ItemContainer.ItemType.Equipable:
-                        if(inventory.AddItem(auxContainer.eItem) == 0)
-                            Destroy(itemOnGround.gameObject);
+                        if(inventory.AddItem(auxContainer.eItem) == 0) {
+                            itemsOnGround.Remove(itemsOnGround[0]);
+                            Destroy(auxContainer.gameObject);
+                        }
                         break;
                 }
             }

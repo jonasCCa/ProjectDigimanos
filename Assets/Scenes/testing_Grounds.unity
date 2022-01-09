@@ -1078,6 +1078,63 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1001 &265942167
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.4476624
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.955973
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752157, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_Name
+      value: Small HP Potion (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
 --- !u!1 &288495947
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,6 +1444,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 355174276}
   m_CullTransparentMesh: 1
+--- !u!1001 &398900192
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752157, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_Name
+      value: Small HP Potion
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
 --- !u!1 &400792662
 GameObject:
   m_ObjectHideFlags: 0
@@ -3096,6 +3210,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932092390}
   m_CullTransparentMesh: 1
+--- !u!1001 &943438133
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 4.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752157, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_Name
+      value: Small HP Potion (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
 --- !u!1 &946999421
 GameObject:
   m_ObjectHideFlags: 0
@@ -3171,6 +3342,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946999421}
   m_CullTransparentMesh: 1
+--- !u!1001 &949757784
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752156, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 614769653994752157, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
+      propertyPath: m_Name
+      value: Small HP Potion (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 90bb1391b10e65d4b962905fed758cc6, type: 3}
 --- !u!1 &986117718
 GameObject:
   m_ObjectHideFlags: 0

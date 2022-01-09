@@ -428,8 +428,10 @@ public class StatsController : MonoBehaviour
 
         // If dies, return XP Amount and flags death
         if(curHP <= 0) {
-            Dies();
-            return xpValue;
+            if(isAlive) {
+                Dies();
+                return xpValue;
+            }
         } else { // If doesn't die, sends knockback to controller
             if(isPlayer)
                 playerController.Knockback(kbValue, attackerPosition);
