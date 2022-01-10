@@ -410,6 +410,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "1e2e64f7-1ffa-4615-89d5-05719dca2ca0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Close Menu",
                     "type": "Button",
                     "id": "d3db3490-33b2-4f98-a7ed-f0b14a8e0f85",
@@ -592,6 +600,39 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Close Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a307cf4e-d33e-492a-a5b5-002cdc10dd3e",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "836cc017-29c4-4d50-bcdb-0a61c5af4f9f",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1419d6ba-0420-453b-95db-48b7fca407d9",
+                    "path": "<HID::USB Gamepad >/trigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

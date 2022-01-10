@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
         //playerInput.SwitchCurrentActionMap("Gameplay");
 
         GetComponent<UIPlayerController>().scrollTransform = playerMenu.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<RectTransform>();
+        GetComponent<UIPlayerController>().invSubMenuTransform = playerMenu.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<RectTransform>();
         inventory.listParentUI = GetComponent<UIPlayerController>().scrollTransform.gameObject;
 
         controller = GetComponent<CharacterController>();

@@ -123,7 +123,7 @@ MonoBehaviour:
   inventory: {fileID: 0}
   controller: {fileID: 0}
   playerInput: {fileID: 0}
-  itemOnGround: {fileID: 0}
+  itemsOnGround: []
   xSpeed: 10
   ySpeed: 10
   breakXSpeed: 0
@@ -180,12 +180,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 866135440306408912}
+  curType: 0
   scrollTransform: {fileID: 0}
+  invSubMenuTransform: {fileID: 0}
   index: 0
   maxIndex: 7
   visibleItems: 6
-  wasPressed: 0
   elementHeight: 21.538
+  subIndex: 0
+  curY: 0
+  upsideDownY: 0
+  wasPressed: 0
 --- !u!114 &6749005054635464316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,6 +485,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: d3db3490-33b2-4f98-a7ed-f0b14a8e0f85
     m_ActionName: UI/Close Menu[/Keyboard/tab,/USB Gamepad /button9]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1486888705794933773}
+        m_TargetAssemblyTypeName: UIPlayerController, Assembly-CSharp
+        m_MethodName: OnCancel
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1e2e64f7-1ffa-4615-89d5-05719dca2ca0
+    m_ActionName: UI/Cancel[/Keyboard/q,/USB Gamepad /trigger]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

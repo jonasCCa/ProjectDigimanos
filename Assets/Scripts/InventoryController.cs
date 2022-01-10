@@ -82,7 +82,8 @@ public class InventoryController : MonoBehaviour
     }
 
     // Uses Item by referencing it's index
-    public void UseItemByIndex(int index) {
+    // Returns true if item was COMPLETELY used, false if not
+    public bool UseItemByIndex(int index) {
         // If index is valid 
         if(index < itemList.Count) {
             // Can only use Usable Items
@@ -156,6 +157,8 @@ public class InventoryController : MonoBehaviour
                         // Updates list size on UI
                         uIPlayerController.SetMaxIndex(itemList.Count-1);
                         uIPlayerController.UpdateSelected(true);
+
+                        return true;
                     } else {
                         // Updates item quantity on inventory UI
                         listParentUI.transform.GetChild(index).GetComponent<ListItemController>().UpdateItemQuantity(item.GetQuantity());
@@ -163,9 +166,11 @@ public class InventoryController : MonoBehaviour
                 }
             }
         }
+        return false;
     }
 
     // Drops the item from the inventory to the ground
+    // Returns true if Item was dropped, false if not
     public bool DropItemByIndex(int index) {
         // If index is valid 
         if(index < itemList.Count) {
