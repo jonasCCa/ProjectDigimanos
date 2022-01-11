@@ -21,6 +21,18 @@ public class InventoryController : MonoBehaviour
         //playerStats = GetComponent<StatsController>();
     }
 
+    // Returns Item quantity, given index
+    public int GetItemQuantityByIndex(int index) {
+        if(index < itemList.Count) {
+            if(itemList[index] is Usable)
+                return (itemList[index] as Usable).GetQuantity();
+            else
+                return 1;
+        }
+        
+        return 0;
+    }
+
     // Adds an Item to the inventory
     // Returns how many leftovers there were
     //      Kinda sus implementation; if the item isn't Usable, it's straight forward and fast
@@ -169,30 +181,39 @@ public class InventoryController : MonoBehaviour
         return false;
     }
 
-    // Drops the item from the inventory to the ground
-    // Returns true if Item was dropped, false if not
-    public bool DropItemByIndex(int index) {
+    // Drops dropQuantity of the item from the inventory to the ground
+    // Returns true if Item was COMPLETELY dropped, false if not
+    public bool DropItemByIndex(int index, int dropQuantity) {
         // If index is valid 
         if(index < itemList.Count) {
             // Decide wether to create an Usable or Equipable
             if(itemList[index] is Usable) {
                 Usable item = (Usable)itemList[index];
 
+                
                 GameObject gO = Instantiate(itemContainerPrefab, transform.position - new Vector3(0,1,0), Quaternion.identity);
                 gO.GetComponent<ItemContainer>().itemType = ItemContainer.ItemType.Usable;
                 gO.GetComponent<ItemContainer>().uItem = item.Clone(item);
+                gO.GetComponent<ItemContainer>().uItem.quantity = dropQuantity;
                 gO.GetComponent<ItemContainer>().InstantiateItem();
 
-                itemList.RemoveAt(index);
-                // Destroys item on inventory UI
-                Destroy(listParentUI.transform.GetChild(index).gameObject);
-                // Updates list size on UI
-                uIPlayerController.SetMaxIndex(itemList.Count-1);
-                uIPlayerController.UpdateSelected(true);
+                if(dropQuantity >= item.quantity) {
+                    itemList.RemoveAt(index);
+                    // Destroys item on inventory UI
+                    Destroy(listParentUI.transform.GetChild(index).gameObject);
+                    // Updates list size on UI
+                    uIPlayerController.SetMaxIndex(itemList.Count-1);
+                    uIPlayerController.UpdateSelected(true);
 
-                Debug.Log("Drped " + item.ID);
+                    Debug.Log("Droped fully " + item.ID);
+                    return true;
+                } else {
+                    item.RemoveQuantity(dropQuantity);
+                    listParentUI.transform.GetChild(index).GetComponent<ListItemController>().UpdateItemQuantity(item.GetQuantity());
 
-                return true;
+                    Debug.Log("Droped " + dropQuantity + " from " + item.ID);
+                    return false;
+                }
             } else if(itemList[index] is Equipable) {
                 Equipable item = (Equipable)itemList[index];
 

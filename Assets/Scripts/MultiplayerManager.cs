@@ -14,7 +14,6 @@ public class MultiplayerManager : MonoBehaviour
     [Header("UI")]
     public List<GameObject> playerIndicators;
     public List<GameObject> playerUI;
-    public List<BarController> barControllers;
 
     [Header("Tests")]
     public List<Material> playerMaterials;
@@ -99,9 +98,9 @@ public class MultiplayerManager : MonoBehaviour
         playerUI[pI.playerIndex].SetActive(true);
 
         // Update player bars
-        pI.gameObject.GetComponent<StatsController>().hpBar = barControllers[3*pI.playerIndex];
-        pI.gameObject.GetComponent<StatsController>().mpBar = barControllers[3*pI.playerIndex + 1];
-        pI.gameObject.GetComponent<StatsController>().expBar = barControllers[3*pI.playerIndex + 2];
+        pI.gameObject.GetComponent<StatsController>().hpBar = playerUI[pI.playerIndex].transform.GetChild(2).GetChild(0).GetComponent<BarController>();
+        pI.gameObject.GetComponent<StatsController>().mpBar = playerUI[pI.playerIndex].transform.GetChild(2).GetChild(1).GetComponent<BarController>();
+        pI.gameObject.GetComponent<StatsController>().expBar = playerUI[pI.playerIndex].transform.GetChild(2).GetChild(2).GetComponent<BarController>();
 
         Debug.Log("Player Joined; ID: " + pI.playerIndex);
 
