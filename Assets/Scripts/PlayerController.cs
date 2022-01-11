@@ -392,26 +392,41 @@ public class PlayerController : MonoBehaviour
 
     public void OnPickup(InputAction.CallbackContext value) {
         if(value.performed && value.ReadValueAsButton()==true) {
-            if(itemsOnGround.Count > 0 && stats.isAlive) { //if(itemOnGround != null) {
-                ItemContainer auxContainer = itemsOnGround[0].gameObject.GetComponent<ItemContainer>();
+            if(itemsOnGround.Count > 0 && stats.isAlive) {
+                // Mitigate nulls
+                List<int> removeList = new List<int>();
+                for(int i=0; i<itemsOnGround.Count; i++) {
+                    if(itemsOnGround[i] != null)
+                        break;
+                    removeList.Add(i);
+                }
+                if(removeList.Count > 0) {
+                    for(int i=removeList.Count-1; i>=0; i--) {
+                        itemsOnGround.RemoveAt(removeList[i]);
+                    }
+                }
 
-                switch(auxContainer.itemType) {
-                    case ItemContainer.ItemType.Usable:
-                        // Adds item to inventory and gets leftovers
-                        int leftovers = inventory.AddItem(auxContainer.uItem);
-                        if(leftovers != 0) {
-                            auxContainer.uItem.RemoveQuantity(auxContainer.uItem.quantity - leftovers);
-                        } else {
-                            itemsOnGround.Remove(itemsOnGround[0]);
-                            Destroy(auxContainer.gameObject);
-                        }
-                        break;
-                    case ItemContainer.ItemType.Equipable:
-                        if(inventory.AddItem(auxContainer.eItem) == 0) {
-                            itemsOnGround.Remove(itemsOnGround[0]);
-                            Destroy(auxContainer.gameObject);
-                        }
-                        break;
+                if(itemsOnGround.Count > 0) {
+                    ItemContainer auxContainer = itemsOnGround[0].gameObject.GetComponent<ItemContainer>();
+
+                    switch(auxContainer.itemType) {
+                        case ItemContainer.ItemType.Usable:
+                            // Adds item to inventory and gets leftovers
+                            int leftovers = inventory.AddItem(auxContainer.uItem);
+                            if(leftovers != 0) {
+                                auxContainer.uItem.RemoveQuantity(auxContainer.uItem.quantity - leftovers);
+                            } else {
+                                itemsOnGround.Remove(itemsOnGround[0]);
+                                Destroy(auxContainer.gameObject);
+                            }
+                            break;
+                        case ItemContainer.ItemType.Equipable:
+                            if(inventory.AddItem(auxContainer.eItem) == 0) {
+                                itemsOnGround.Remove(itemsOnGround[0]);
+                                Destroy(auxContainer.gameObject);
+                            }
+                            break;
+                    }
                 }
             }
         }
