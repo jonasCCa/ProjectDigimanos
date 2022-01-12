@@ -210,8 +210,11 @@ public class UIPlayerController : MonoBehaviour
                                 curType = MenuType.SUB_INV;
                                 // Open Sub Menu
                                 invSubMenuTransform.gameObject.SetActive(true);
+
+                                float realElementHeight = elementHeight*(Screen.height / scrollTransform.root.GetComponent<CanvasScaler>().referenceResolution.y);
+
                                 invSubMenuTransform.position = new Vector3(invSubMenuTransform.position.x,
-                                                                            scrollTransform.GetChild(index).transform.position.y + elementHeight*1.5f,
+                                                                            scrollTransform.GetChild(index).transform.position.y + realElementHeight*1.5f,
                                                                             invSubMenuTransform.position.z);
                             }
                             break;

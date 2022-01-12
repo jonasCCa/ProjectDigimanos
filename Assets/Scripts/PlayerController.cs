@@ -394,7 +394,14 @@ public class PlayerController : MonoBehaviour
         if(value.performed && value.ReadValueAsButton()==true) {
             if(itemsOnGround.Count > 0 && stats.isAlive) {
                 // Mitigate nulls
-                List<int> removeList = new List<int>();
+                while(itemsOnGround.Count > 0) {
+                    if(itemsOnGround[0] != null)
+                        break;
+                    
+                    itemsOnGround.RemoveAt(0);
+                }
+                
+                /*List<int> removeList = new List<int>();
                 for(int i=0; i<itemsOnGround.Count; i++) {
                     if(itemsOnGround[i] != null)
                         break;
@@ -404,7 +411,7 @@ public class PlayerController : MonoBehaviour
                     for(int i=removeList.Count-1; i>=0; i--) {
                         itemsOnGround.RemoveAt(removeList[i]);
                     }
-                }
+                }*/
 
                 if(itemsOnGround.Count > 0) {
                     ItemContainer auxContainer = itemsOnGround[0].gameObject.GetComponent<ItemContainer>();
