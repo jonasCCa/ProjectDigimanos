@@ -265,6 +265,8 @@ MonoBehaviour:
   uIPlayerController: {fileID: -1486888705794933773}
   itemList: []
   capacity: 10
+  shortcut1: 0
+  shortcut2: 0
   listParentUI: {fileID: 3285075396151851027, guid: 13d1172555a7799429a54b10a4a4c1fc, type: 3}
   itemPrefab: {fileID: 5120153734139097445, guid: f5e5f4e5dfe11844f87c5b7a538c5aea, type: 3}
   itemContainerPrefab: {fileID: 3285075396151851027, guid: 13d1172555a7799429a54b10a4a4c1fc, type: 3}
@@ -502,6 +504,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1e2e64f7-1ffa-4615-89d5-05719dca2ca0
     m_ActionName: UI/Cancel[/Keyboard/q,/USB Gamepad /trigger]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 866135440306408912}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnShortcut2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 079f61f7-22c5-49ba-abde-a0932c59d8cd
+    m_ActionName: Gameplay/Item Shortcut 2[/Keyboard/2,/USB Gamepad /button6]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1486888705794933773}
+        m_TargetAssemblyTypeName: UIPlayerController, Assembly-CSharp
+        m_MethodName: OnSetShorcut1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fdd92402-5582-4b22-8167-c8e5ffa5c1a5
+    m_ActionName: UI/Item Shortcut 1[/Keyboard/1,/USB Gamepad /button5]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1486888705794933773}
+        m_TargetAssemblyTypeName: UIPlayerController, Assembly-CSharp
+        m_MethodName: OnSetShorcut2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b2309704-135f-4f8c-8569-d8cb51431f5d
+    m_ActionName: UI/Item Shortcut 2[/Keyboard/2,/USB Gamepad /button6]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Gameplay

@@ -10,6 +10,10 @@ public class InventoryController : MonoBehaviour
     [SerializeField] List<Item> itemList;
     [SerializeField] int capacity;
 
+    [Header("Shortcut Indexes")]
+    public int shortcut1;
+    public int shortcut2;
+
     [Header("UI")]
     public GameObject listParentUI;
     [SerializeField] GameObject itemPrefab;
@@ -19,6 +23,7 @@ public class InventoryController : MonoBehaviour
 
     void Start() {
         //playerStats = GetComponent<StatsController>();
+        shortcut1 = shortcut2 = -1;
     }
 
     // Returns Item quantity, given index
@@ -31,6 +36,15 @@ public class InventoryController : MonoBehaviour
         }
         
         return 0;
+    }
+
+    // Returns true if the item of a given index is Usable
+    // Returns false if it's not or if index isn't valid
+    public bool IsUsable(int index) {
+        if(index < itemList.Count && index >= 0)
+            return itemList[index] is Usable;
+        
+        return false;
     }
 
     // Adds an Item to the inventory
@@ -97,7 +111,7 @@ public class InventoryController : MonoBehaviour
     // Returns true if item was COMPLETELY used, false if not
     public bool UseItemByIndex(int index) {
         // If index is valid 
-        if(index < itemList.Count) {
+        if(index < itemList.Count && index >= 0) {
             // Can only use Usable Items
             if(itemList[index] is Usable) {
                 Usable item = (Usable)itemList[index];
@@ -163,6 +177,18 @@ public class InventoryController : MonoBehaviour
                     item.RemoveQuantity(1);
 
                     if(item.GetQuantity() == 0) {
+                        // Updates shortcuts, if necessary
+                        if(shortcut1 > index) {
+                            shortcut1--;
+                        } else if(shortcut1 == index) {
+                            shortcut1 = -1;
+                        }
+                        if(shortcut2 > index) {
+                            shortcut2--;
+                        } else if(shortcut2 == index) {
+                            shortcut2 = -1;
+                        }
+                        // Removes from inventory
                         itemList.RemoveAt(index);
                         // Destroys item on inventory UI
                         Destroy(listParentUI.transform.GetChild(index).gameObject);
@@ -185,7 +211,7 @@ public class InventoryController : MonoBehaviour
     // Returns true if Item was COMPLETELY dropped, false if not
     public bool DropItemByIndex(int index, int dropQuantity) {
         // If index is valid 
-        if(index < itemList.Count) {
+        if(index < itemList.Count && index >= 0) {
             // Decide wether to create an Usable or Equipable
             if(itemList[index] is Usable) {
                 Usable item = (Usable)itemList[index];
@@ -198,6 +224,18 @@ public class InventoryController : MonoBehaviour
                 gO.GetComponent<ItemContainer>().InstantiateItem();
 
                 if(dropQuantity >= item.quantity) {
+                    // Updates shortcuts, if necessary
+                    if(shortcut1 > index) {
+                        shortcut1--;
+                    } else if(shortcut1 == index) {
+                        shortcut1 = -1;
+                    }
+                    if(shortcut2 > index) {
+                        shortcut2--;
+                    } else if(shortcut2 == index) {
+                        shortcut2 = -1;
+                    }
+                    // Removes from inventory
                     itemList.RemoveAt(index);
                     // Destroys item on inventory UI
                     Destroy(listParentUI.transform.GetChild(index).gameObject);

@@ -54,6 +54,14 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
+                    "name": "Open Menu",
+                    "type": "Button",
+                    "id": "050ab715-3b4e-4e54-a3fb-67444c72c974",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
                     "name": "Item Shortcut 1",
                     "type": "Button",
                     "id": "48747cf8-e770-49b1-a1f7-546c10ecd9cc",
@@ -62,9 +70,9 @@
                     "interactions": "Press(behavior=2)"
                 },
                 {
-                    "name": "Open Menu",
+                    "name": "Item Shortcut 2",
                     "type": "Button",
-                    "id": "050ab715-3b4e-4e54-a3fb-67444c72c974",
+                    "id": "079f61f7-22c5-49ba-abde-a0932c59d8cd",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
@@ -260,39 +268,6 @@
                 },
                 {
                     "name": "",
-                    "id": "5d4d2415-5851-406c-aeac-c9ad1c18b27b",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard/Mouse",
-                    "action": "Item Shortcut 1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e9d426fc-e4d9-4042-8d84-eca8d59a4132",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Item Shortcut 1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e9153a6d-4245-4587-bebb-240c54848af9",
-                    "path": "<HID::USB Gamepad >/button5",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joystick",
-                    "action": "Item Shortcut 1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "7169b8f9-e19d-4903-8cbf-3a4fb0844cc4",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
@@ -378,6 +353,72 @@
                     "action": "Open Menu",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b393db03-84fe-4486-a420-5f82cdd91f8a",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "Item Shortcut 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bbb8eef2-e648-4cec-b2d3-cd8e7a00d25b",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Item Shortcut 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "39742473-620a-42ec-9629-34dd9e1bd54f",
+                    "path": "<HID::USB Gamepad >/button6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Item Shortcut 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5d4d2415-5851-406c-aeac-c9ad1c18b27b",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9d426fc-e4d9-4042-8d84-eca8d59a4132",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9153a6d-4245-4587-bebb-240c54848af9",
+                    "path": "<HID::USB Gamepad >/button5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -424,6 +465,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Item Shortcut 1",
+                    "type": "Button",
+                    "id": "fdd92402-5582-4b22-8167-c8e5ffa5c1a5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Item Shortcut 2",
+                    "type": "Button",
+                    "id": "b2309704-135f-4f8c-8569-d8cb51431f5d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)"
                 }
             ],
             "bindings": [
@@ -633,6 +690,72 @@
                     "processors": "",
                     "groups": "Joystick",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d46bed6-5a21-4032-ac5f-690895295184",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c366a423-2382-4d27-b937-1ff0fe55ee10",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7053d4a9-befd-4db8-a5c7-43bbb10e0740",
+                    "path": "<HID::USB Gamepad >/button5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Item Shortcut 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6570877d-77a4-4f7a-a814-2d893c8921b0",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "Item Shortcut 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e437e7b5-cf24-4a9d-b758-70d42991a998",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Item Shortcut 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8fec6dc-49a7-4f09-878e-f9afad393c3a",
+                    "path": "<HID::USB Gamepad >/button6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Joystick",
+                    "action": "Item Shortcut 2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -482,7 +482,14 @@ public class PlayerController : MonoBehaviour
     public void OnShortcut1(InputAction.CallbackContext value) {
         if(value.performed && value.ReadValueAsButton()==true && inventory != null) {
             // PLACE-HOLDER
-            inventory.UseItemByIndex(0);
+            inventory.UseItemByIndex(inventory.shortcut1);
+        }
+    }
+
+    public void OnShortcut2(InputAction.CallbackContext value) {
+        if(value.performed && value.ReadValueAsButton()==true && inventory != null) {
+            // PLACE-HOLDER
+            inventory.UseItemByIndex(inventory.shortcut2);
         }
     }
 

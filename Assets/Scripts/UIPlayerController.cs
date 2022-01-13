@@ -296,6 +296,62 @@ public class UIPlayerController : MonoBehaviour
         }
     }
 
+    public void OnSetShorcut1(InputAction.CallbackContext value) {
+        if(playerController != null && playerController.inventory != null) {
+            if(value.ReadValueAsButton()==true && value.performed) {
+                if(curType == MenuType.INV) {
+                    if(!wasPressed) {
+                        wasPressed = true;
+
+                        // Can't change while inventory is empty
+                        if(maxIndex >= 0) {
+                            // Can only set shortcuts for usable items
+                            if(playerController.inventory.IsUsable(index)) {
+                                // Set shortcut, switch if already present
+                                if(playerController.inventory.shortcut2 == index)
+                                    playerController.inventory.shortcut2 = playerController.inventory.shortcut1;
+                                
+                                playerController.inventory.shortcut1 = index;
+
+                                // Update UI
+                            }
+                        }
+                    }
+                }
+            } else {
+                        wasPressed = false;
+            }
+        }
+    }
+
+    public void OnSetShorcut2(InputAction.CallbackContext value) {
+        if(playerController != null && playerController.inventory != null) {
+            if(value.ReadValueAsButton()==true && value.performed) {
+                if(curType == MenuType.INV) {
+                    if(!wasPressed) {
+                        wasPressed = true;
+                        
+                        // Can't change while inventory is empty
+                        if(maxIndex >= 0) {
+                            // Can only set shortcuts for usable items
+                            if(playerController.inventory.IsUsable(index)) {
+                                // Set shortcut, switch if already present
+                                if(playerController.inventory.shortcut1 == index)
+                                    playerController.inventory.shortcut1 = playerController.inventory.shortcut2;
+                                
+                                playerController.inventory.shortcut2 = index;
+                                
+                                // Update UI
+                            }
+                        }
+                    }
+                }
+            } else {
+                        wasPressed = false;
+            }
+        }
+    }
+
     public void OnCloseMenu(InputAction.CallbackContext value) {
         if(playerController != null) {
             if(playerController.playerInput != null && playerController.playerMenu != null) {
