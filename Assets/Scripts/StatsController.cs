@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class StatsController : MonoBehaviour
@@ -11,6 +13,7 @@ public class StatsController : MonoBehaviour
     public BarController hpBar;
     public BarController mpBar;
     public BarController expBar;
+    public GameObject floatingNumber;
     
     [Header("Level XP")]
     public int level = 1;
@@ -196,6 +199,12 @@ public class StatsController : MonoBehaviour
         if(curHP > maxHP) {
             curHP = maxHP;
         }
+
+        // Instantiates floating healing numbers
+        Instantiate(floatingNumber, transform.position + new Vector3(0, .5f, 0), Quaternion.identity).GetComponentInChildren<FloatingNumber>()
+                    .UpdateText(hpValue.ToString())
+                    .UpdateTextGradient((TMP_ColorGradient)AssetDatabase.LoadAssetAtPath("Assets/TextAssets/Gradients/Digital Green Gradient.asset",
+                                                                                            typeof(TMP_ColorGradient)));
 
         Debug.Log(log + " -> " + curHP);
 
@@ -416,6 +425,10 @@ public class StatsController : MonoBehaviour
 
             return 0;
         }
+
+        // Instantiates floating damage numbers
+        Instantiate(floatingNumber, transform.position + new Vector3(0, .5f, 0), Quaternion.identity)
+                             .GetComponentInChildren<FloatingNumber>().UpdateText(dmgValue.ToString());
         
         string log = "Damaged: " + curHP;
             

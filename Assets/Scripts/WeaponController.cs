@@ -40,9 +40,9 @@ public class WeaponController : MonoBehaviour
         if(other.gameObject != parentPlayer) {
             
             StatsController targetStats = other.gameObject.GetComponent<StatsController>();
-            if(targetStats != null) {
+            if(targetStats != null && targetStats.isAlive) {
                 // Place-holder for damage calculation
-                playerStats.GainExp(targetStats.TakeDamage((int)(playerStats.str * curDmgMultiplier),
+                playerStats.GainExp(targetStats.TakeDamage((int)((playerStats.str + playerStats.bonusStr) * curDmgMultiplier),
                                                    knockbackAmount, parentPlayer.transform.position));
             }
         }
